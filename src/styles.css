@@ -1,1 +1,240 @@
-/* You can add global styles to this file, and also import other style files */
+/* Master styles */
+
+/* color variables */
+:root {
+--color-main: #4CAF50;
+--color-secondary: #98541D;
+--color-gray-dark: #3C463C;
+--color-gray-light: #F9FBF9;
+}
+
+/* Elements */
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+
+h2 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+
+body {
+  margin: 2em;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header h2,
+.header h4 {
+  display: inline-block;
+}
+
+/* Navigation Styles */
+nav {
+  font: 1em arial, helvetica, sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0 auto;
+  align-items: center;
+  background-color:  #4CAF50;
+}
+
+nav ul {
+  color: #3C463C;
+  display: flex;
+  flex: 1 0 100%;
+  width: 100%;
+  list-style: none;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul a,
+nav ul li {
+  text-decoration: none;
+  height: 100%;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  color: #F9FBF9;
+  cursor: pointer;
+}
+
+nav ul a:hover {
+  background-color: #3d8b40;
+}
+
+nav .secondary {
+  background-color: #3C463C;
+}
+
+nav .secondary li {
+  color: #F9FBF9;
+  cursor: pointer;
+}
+
+nav .secondary li:hover {
+  background-color: #242B24;
+}
+
+.inline-add {
+  display: flex;
+  justify-content: center;
+}
+
+.inline-add span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-btn {
+  margin: 0 auto;
+  width: 90%;
+  height: 40px;
+  display: inline-block;
+}
+
+.input-btn input,
+.btn-inset {
+  padding-right: 100px;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin: 0;
+}
+
+.btn-inset {
+  margin-left: -101px;
+  padding: 0;
+  width: 100px;
+  height: 28px;
+}
+
+/* Buttons */
+button {
+  border-style: none;
+  width: 150px;
+  height: 50px;
+  font-size: 16px;
+  box-shadow: 0 1px 2px -1px black;
+}
+
+button.small {
+  height: 35px;
+  width: auto;
+}
+
+button.right {
+  float: right;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:active {
+  box-shadow: none;
+  border: none;
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Component Details */
+.container {
+  width: 75%;
+  margin: 0 auto;
+}
+
+.person span,
+.utility span {
+  font-size: 16px;
+  margin: 10px 2px;
+  padding: 5px 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.bill-card .bill:hover,
+.person span:hover,
+.utility span:hover {
+  box-shadow: 0 1px 1px -1px black;
+  background-color: #eee;
+}
+
+.bill-card .bill:hover,
+.person span:active,
+.utility span:active {
+  box-shadow: none;
+}
+
+.inline {
+  width: 90%;
+  margin: 10px auto;
+  padding: 10px;
+  background-color: #fdfdfd;
+  box-shadow: 0 1px 2px 0 #ccc;
+  overflow: hidden;
+}
+
+.inline .bills {
+  padding: 10px 0;
+}
+
+.bill-card {
+  margin: 10px auto;
+}
+
+.bill-card .bill {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.bill-card .bill .due-date,
+.bill-card .bill .amount,
+.bill-card .bill .utility {
+  padding: 5px 10px;
+}
+
+.bill-card .bill .utility {
+}
+
+/* Forms styles */
+.ng-vadid[required], .ng-vaid.required {
+  border-left: 5px solid #42A948;
+}
+
+.ng-invalid:not(form) {
+  border-left: 5px solid #A94442;
+}
+
+label, input, select, textarea {
+  width: 90%;
+  display: inline-block;
+  margin: 5px auto;
+  margin-top: 0;
+}
+
+label { 
+  margin-top: 5px;
+}
