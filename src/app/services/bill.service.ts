@@ -43,6 +43,7 @@ export class BillService {
       let bills = getLS('ngbills');
       // id's are 1 indexed.
       let b = ((id - 1) < bills.length) ? bills[id - 1] : undefined;
+      b = new Bill(b);
       return Promise.resolve(b);
     } else {
       return this.http.get(`${this.url}/bills/${id}/`)

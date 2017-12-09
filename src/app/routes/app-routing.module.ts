@@ -4,7 +4,7 @@ import { BillComponent } from '../components/bill.component';
 
 const routes: Routes = [
   {
-    path: 'bills',
+    path: 'b',
     component: BillComponent,
   }
 ];

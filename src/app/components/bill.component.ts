@@ -10,9 +10,21 @@ import { BillService } from '../services/bill.service';
   selector: 'bill-cmp',
   template: `
     <h3>Bills</h3>
-    <div>
-      {{ bills }}
+    <div *ngIf="bills?.length === 0; then no_bills else list_bills"></div>
+    <ng-template #no_bills>
+      <p>There are no active bills.</p>
+    </ng-template>
+    <ng-template #list_bills>
+      <div *ngFor="let bill of bills">
+        {{ bill }}
+      </div>
+    </ng-template>
+    <div class="add-bill">
+      <span>
+        <button (click)="addBill()">Add New Bill</button>
+      </span>
     </div>
+    <bill-form></bill-form>
   `,
   styles: [],
 })
@@ -34,5 +46,9 @@ export class BillComponent implements OnInit {
       (bills) => {
         this.bills = bills;
       });
+  }
+
+  addBill(): void {
+    console.log("hello");
   }
 }
