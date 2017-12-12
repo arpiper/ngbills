@@ -26,7 +26,7 @@ export class AppComponent {
     "home",
     "bills",
     "utilities",
-    "People",
+    "people",
   ];
 
   constructor(

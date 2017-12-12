@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BillComponent } from '../components/bill.component';
-import { UtilityResolver } from '../services/utility.service';
+import { PersonComponent } from '../components/person.component';
+import { UtilityComponent } from '../components/utility.component';
 import { PersonResolver } from '../services/person.service';
+import { UtilityResolver } from '../services/utility.service';
 
 const billRoutes: Routes = [
   {
@@ -19,7 +21,21 @@ const billRoutes: Routes = [
     resolve: {
       bill: BillDetailResolver,
     }
-  }*/
+  },*/
+  {
+    path: 'people',
+    redirectTo: '/persons',
+    pathMatch: 'full',
+  },
+  {
+    path: 'persons',
+    component: PersonComponent,
+  },
+  
+  { 
+    path: 'utilities',
+    component: UtilityComponent,
+  },
 ];
 
 @NgModule({
