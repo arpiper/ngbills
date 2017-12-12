@@ -55,7 +55,8 @@ export class UtilityService {
     if (this.local) {
       let utils = getLS('ngutilities');
       // id's are 1 indexed.
-      utility['id'] = utils.length++;
+      utility['id'] = utils.length + 1;
+      utils.push(utility);
       saveLS('ngutilities', utils);
       return Promise.resolve(utility);
     } else {

@@ -55,7 +55,8 @@ export class PersonService {
     if (this.local) {
       let persons = getLS('ngpersons');
       // id's are 1 indexed.
-      person['id'] = persons.length++;
+      person['id'] = persons.length + 1;
+      persons.push(person);
       saveLS('ngpersons', persons);
       return Promise.resolve(persons);
     } else {

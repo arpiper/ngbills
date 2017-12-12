@@ -57,7 +57,8 @@ export class BillService {
     if (this.local) {
       let bills = getLS('ngbills');
       // bill id's are 1 indexed.
-      bill['id'] = bills.length++;
+      bill['id'] = bills.length + 1;
+      bills.push(bill);
       saveLS('ngbills', bills);
       return Promise.resolve(bill);
     } else {

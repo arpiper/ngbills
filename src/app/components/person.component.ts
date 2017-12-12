@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 import { Bill } from '../models/bill';
 import { Utility } from '../models/utility';
@@ -34,28 +34,35 @@ import { PersonService } from '../services/person.service';
 })
 
 export class PersonComponent implements OnInit {
-  private addPersonValue: Person;
+  private addPersonObj: Person;
   private persons: Person[];
   private no_name: boolean = false;
+  @ViewChild('personName') private inputEl: ElementRef;
 
   constructor(
-    private personService: PersonService
+    private personService: PersonService,
   ) {}
 
   ngOnInit(): void {
-    this.personService.getPersons().then( (res) => {
-      console.log(res);
-      this.persons = res;
-    });
-    this.addPersonValue = new Person();
+    this.getPersons();
+    this.addPersonObj = new Person({name: ''});
   }
 
   addPerson(name: string): void {
-    console.log(this.addPersonValue);
-    if (name !== 0) {
-      this.personService.savePerson(p);
+    if (name.length !== 0) {
+      this.addPersonObj.name = name;
+      this.personService.savePerson(this.addPersonObj);
+      this.getPersons();
       this.no_name = false;
+    } else {
+      this.inputEl.nativeElement.focus();
+      this.no_name = true;
     }
-    this.no_name = true;
+  }
+
+  getPersons(): void {
+    this.personService.getPersons().then( (res) => {
+      this.persons = res;
+    });
   }
 }
