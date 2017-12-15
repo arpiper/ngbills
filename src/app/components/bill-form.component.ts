@@ -15,7 +15,7 @@ import { PersonService } from '../services/person.service';
   selector: 'bill-form',
   template:`
     <h5>form</h5>
-    <form [formGroup]="billForm" (ngSubmit)="save(myForm.value, myForm.valid)">
+    <form [formGroup]="billForm" (ngSubmit)="saveBill()">
       <div class="form-group">
         <label>Due Date:
           <input class="form-control" formControlName="due_date">
@@ -23,20 +23,20 @@ import { PersonService } from '../services/person.service';
       </div>
       <div class="form-group">
         <label>Amount:
-          <input class="form-control" formControlName="amount">
+          <input type="number" class="form-control" formControlName="amount">
         </label>
       </div>
       <div class="form-group">
         <label>Utility:
           <select class="form-control" formControlName="paid_to">
-            <option *ngFor="let utility of paid_to" [value]="utility">{{ utility.name | uppercase }}</option>
+            <option *ngFor="let utility of utilities" [value]="utility.id">{{ utility.name | uppercase }}</option>
           </select>
         </label>
       </div>
       <div class="form-group">
         <label>Roommates:
-          <select class="form-control" formControlName="split_by">
-            <option *ngFor="let person of split_by" [value]="person">{{ person.name | uppercase }}</option>
+          <select multiple class="form-control" formControlName="split_by" ngModel>
+            <option *ngFor="let person of persons" [value]="person.id">{{ person.name | uppercase }}</option>
           </select>
         </label>
       </div>
@@ -76,16 +76,36 @@ export class BillFormComponent implements OnInit {
 
   createForm(): void {
     this.billForm = this.fb.group({
-      due_date: new Date(),//new FormControl(),
-      amount: 0, //new FormControl(),
-      paid_to: this.utilities, //new FormControl(),
-      split_by: this.persons, //new FormControl(),
-      notes: '', //new FormControl(),
+      due_date: new Date().toLocaleDateString(),
+      amount: 0, 
+      paid_to: Utility, 
+      split_by: Person, 
+      notes: '',
     });
   }
 
-  save(value, valid): void {
-    console.log("value", value);
-    console.log("valid", valid);
+  prepareSaveBill(): Bill {
+    let bf = this.billForm.value;
+    let u_id = this.utilities.findIndex((v) => v.id === +bf.paid_to);
+    let p = bf.split_by.map((v) => {
+      let p_id = this.persons.findIndex(v2 => v2.id === v);
+      return this.persons[p_id];
+    });
+    console.log(u_id, this.utilities[u_id]);
+    let b = new Bill({
+      due_date: this.billForm.value.due_date,
+      amount: +this.billForm.value.amount,
+      paid_to: this.utilities[u_id],
+      split_by: p,
+      notes: this.billForm.value.notes,
+    });
+    console.log(b);
+    return b;
+  }
+
+  saveBill(): void {
+    console.log("bill", this.billForm);
+    let b = this.prepareSaveBill();
+    this.billService.saveBill(b);
   }
 }
