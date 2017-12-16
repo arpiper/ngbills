@@ -91,7 +91,6 @@ export class BillFormComponent implements OnInit {
       let p_id = this.persons.findIndex(v2 => v2.id === v);
       return this.persons[p_id];
     });
-    console.log(u_id, this.utilities[u_id]);
     let b = new Bill({
       due_date: this.billForm.value.due_date,
       amount: +this.billForm.value.amount,
@@ -99,13 +98,15 @@ export class BillFormComponent implements OnInit {
       split_by: p,
       notes: this.billForm.value.notes,
     });
-    console.log(b);
     return b;
   }
 
   saveBill(): void {
     console.log("bill", this.billForm);
     let b = this.prepareSaveBill();
+    b.split_by_ids.forEach(
+      v => this.personService.updatePaymentsMade(b.split_amount, v)
+    );
     this.billService.saveBill(b);
   }
 }

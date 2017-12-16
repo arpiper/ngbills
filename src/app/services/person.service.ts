@@ -62,13 +62,24 @@ export class PersonService {
     } else {
       return this.http.put(`${this.url}/persons/`, JSON.stringify(person), {headers: this.headers})
         .toPromise()
-        .then((res) => res.json())
-        .catch((res) => this.handleError(res))
+        .then(res => res.json())
+        .catch(res => this.handleError(res))
     }
   }
 
-  //updatePaymentsMade(val: number, id: number): Promise<any> {
-  //}
+  updatePaymentsMade(val: number, id: number): Promise<any> {
+    if (this.local) {
+      let persons = getLS('ngperson');
+      persons[id].payments_made += val;
+      saveLS('ngpersons', persons);
+      return Promise.resolve(persons);
+    } else {
+      return this.http.put(`${this.url}/persons/${id}`, JSON.stringify(val), {headers: this.headers})
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => this.handleError(res));
+    }
+  }
   
   deletePerson(id: number): Promise<any> {
     if (this.local) {

@@ -2,8 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BillComponent } from '../components/bill.component';
-import { PersonComponent } from '../components/person.component';
-import { UtilityComponent } from '../components/utility.component';
+import { BillDetailComponent } from '../components/bill-detail.component';
+import { PersonComponent,
+         PersonDetailComponent } from '../components/person.component';
+import { UtilityComponent,
+         UtilityDetailComponent } from '../components/utility.component';
 import { PersonResolver } from '../services/person.service';
 import { UtilityResolver } from '../services/utility.service';
 
@@ -16,12 +19,10 @@ const billRoutes: Routes = [
       persons: PersonResolver,
     },
   },
-  /*{
+  {
     path: 'bills/:id',
-    resolve: {
-      bill: BillDetailResolver,
-    }
-  },*/
+    component: BillDetailComponent,
+  },
   {
     path: 'people',
     redirectTo: '/persons',
@@ -31,10 +32,17 @@ const billRoutes: Routes = [
     path: 'persons',
     component: PersonComponent,
   },
-  
+  {
+    path: 'person/:id',
+    component: PersonDetailComponent,
+  },
   { 
     path: 'utilities',
     component: UtilityComponent,
+  },
+  {
+    path: 'utilities/:id',
+    component: UtilityDetailComponent,
   },
 ];
 

@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Bill } from '../models/bill';
 import { Utility } from '../models/utility';
@@ -65,5 +66,36 @@ export class UtilityComponent implements OnInit {
       this.utilities = res;
     });
   }
+}
 
+@Component({
+  moduleId: module.id,
+  selector: 'utility-detail-cmp',
+  template: `
+    <div class="utility-details">
+      <h3>{{ utility?.name }}</h3>
+    </div>
+  `,
+  styles: [],
+})
+
+export class UtilityDetailComponent implements OnInit {
+  private utility: Utility;
+
+  constructor(
+    private route: ActivatedRoute,
+    private utilityService: UtilityService,
+  ) {}
+
+  ngOnInit(): void {
+    this.getUtility();
+  }
+
+  getUtility(): void {
+    let id = +this.route.snapshot.paramMap.get('id');
+    this.utilityService.getUtility(id).then(
+      res => {
+        this.utility = res;
+      });
+  }
 }

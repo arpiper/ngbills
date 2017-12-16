@@ -16,7 +16,8 @@ import { BillService } from '../services/bill.service';
     </ng-template>
     <ng-template #list_bills>
       <div *ngFor="let bill of bills">
-        {{ bill }}
+        <bill-detail-inline-cmp [bill]="bill">
+        </bill-detail-inline-cmp>
       </div>
     </ng-template>
     <div class="add-bill">
