@@ -69,8 +69,8 @@ export class PersonService {
 
   updatePaymentsMade(val: number, id: number): Promise<any> {
     if (this.local) {
-      let persons = getLS('ngperson');
-      persons[id].payments_made += val;
+      let persons = getLS('ngpersons');
+      persons[id - 1].payments_made += val;
       saveLS('ngpersons', persons);
       return Promise.resolve(persons);
     } else {

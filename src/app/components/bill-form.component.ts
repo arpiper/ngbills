@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -15,7 +15,7 @@ import { PersonService } from '../services/person.service';
   selector: 'bill-form',
   template:`
     <h5>form</h5>
-    <form [formGroup]="billForm" (ngSubmit)="saveBill()">
+    <form [formGroup]="billForm" (ngSubmit)="saveBill()" (keyup.enter)="submit">
       <div class="form-group">
         <label>Due Date:
           <input class="form-control" formControlName="due_date">
@@ -55,6 +55,7 @@ export class BillFormComponent implements OnInit {
   private persons: Person[];
   private model: Bill;
   private billForm: FormGroup;
+  @Output() addedBill: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private billService: BillService,
@@ -108,5 +109,6 @@ export class BillFormComponent implements OnInit {
       v => this.personService.updatePaymentsMade(b.split_amount, v)
     );
     this.billService.saveBill(b);
+    this.addedBill.emit(b);
   }
 }

@@ -14,7 +14,8 @@ import { UtilityService } from '../services/utility.service';
       <span *ngIf="no_name" class="alert">
         No name entered
       </span>
-      <input #utilityName type="text" placeholder="Utility">
+      <input #utilityName type="text" placeholder="Utility"
+        (keyup.enter)="addUtility(utilityName.value); utilityName.value=''">
       <button (click)="addUtility(utilityName.value); utilityName.value=''" >Add Utility</button>
     </div>
     <div class="utilities">

@@ -25,7 +25,7 @@ import { BillService } from '../services/bill.service';
         <button (click)="addBill()">Add New Bill</button>
       </span>
     </div>
-    <bill-form></bill-form>
+    <bill-form (addedBill)="updateBills($event)"></bill-form>
   `,
   styles: [],
 })
@@ -51,5 +51,9 @@ export class BillComponent implements OnInit {
 
   addBill(): void {
     console.log("hello");
+  }
+  
+  updateBills(bill): void {
+    this.bills.push(bill);
   }
 }
