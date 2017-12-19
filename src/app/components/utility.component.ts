@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Bill } from '../models/bill';
 import { Utility } from '../models/utility';
@@ -85,6 +85,7 @@ export class UtilityDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private utilityService: UtilityService,
   ) {}
 
@@ -96,6 +97,9 @@ export class UtilityDetailComponent implements OnInit {
     let id = +this.route.snapshot.paramMap.get('id');
     this.utilityService.getUtility(id).then(
       res => {
+        if (res.status_code === 404) {
+          this.router.navigate(['/404']);
+        }
         this.utility = res;
       });
   }

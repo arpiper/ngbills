@@ -16,7 +16,12 @@ import { RouterLink } from '@angular/router';
           </a>
         </ul>
       </nav>
-      <router-outlet></router-outlet>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+      <div class="footer">
+        <p>&copy; Andrew Piper</p>
+      </div>
     </main>
   `,
 })

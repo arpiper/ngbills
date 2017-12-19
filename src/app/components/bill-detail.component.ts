@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Bill } from '../models/bill';
 import { BillService } from '../services/bill.service';
 
@@ -72,6 +72,7 @@ export class BillDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private billService: BillService,
   ) {}
 
@@ -83,6 +84,9 @@ export class BillDetailComponent implements OnInit {
     let id = +this.route.snapshot.paramMap.get('id');
     this.billService.getBill(id).then(
       res => {
+        if (res.status_code === 404) {
+          this.router.navigate(['/404']);
+        }
         this.bill = res;
       });
   }

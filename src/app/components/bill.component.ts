@@ -25,13 +25,14 @@ import { BillService } from '../services/bill.service';
         <button (click)="addBill()">Add New Bill</button>
       </span>
     </div>
-    <bill-form (addedBill)="updateBills($event)"></bill-form>
+    <bill-form *ngIf="showForm" (addedBill)="updateBills($event)"></bill-form>
   `,
   styles: [],
 })
 
 export class BillComponent implements OnInit {
-  bills: Bill[];
+  private bills: Bill[];
+  private showForm: boolean = false;
 
   constructor(
     private billService: BillService,
@@ -50,10 +51,11 @@ export class BillComponent implements OnInit {
   }
 
   addBill(): void {
-    console.log("hello");
+    this.showForm = !this.showForm;
   }
   
   updateBills(bill): void {
     this.bills.push(bill);
+    this.showForm = false;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Bill } from '../models/bill';
 import { Utility } from '../models/utility';
@@ -99,6 +99,7 @@ export class PersonDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private personService: PersonService,
     private billService: BillService,
   ) {}
@@ -112,6 +113,9 @@ export class PersonDetailComponent implements OnInit {
   getPerson(): void {
     this.personService.getPerson(this.id).then(
       res => {
+        if (res.status_code === 404) {
+          this.router.navigate(["/404"]);
+        }
         this.person = res;
       });
   }
@@ -123,5 +127,8 @@ export class PersonDetailComponent implements OnInit {
           v => v.split_by_ids.includes(this.id)
         )
       });
+  }
+
+  personNotFound(): void {
   }
 }

@@ -14,39 +14,40 @@ import { PersonService } from '../services/person.service';
   moduleId: module.id,
   selector: 'bill-form',
   template:`
-    <h5>form</h5>
-    <form [formGroup]="billForm" (ngSubmit)="saveBill()" (keyup.enter)="submit">
-      <div class="form-group">
-        <label>Due Date:
-          <input class="form-control" formControlName="due_date">
-        </label>
-      </div>
-      <div class="form-group">
-        <label>Amount:
-          <input type="number" class="form-control" formControlName="amount">
-        </label>
-      </div>
-      <div class="form-group">
-        <label>Utility:
-          <select class="form-control" formControlName="paid_to">
-            <option *ngFor="let utility of utilities" [value]="utility.id">{{ utility.name | uppercase }}</option>
-          </select>
-        </label>
-      </div>
-      <div class="form-group">
-        <label>Roommates:
-          <select multiple class="form-control" formControlName="split_by" ngModel>
-            <option *ngFor="let person of persons" [value]="person.id">{{ person.name | uppercase }}</option>
-          </select>
-        </label>
-      </div>
-      <div class="form-group">
-        <label>Notes:
-          <input class="form-control" formControlName="notes">
-        </label>
-      </div>
-      <button>Submit</button>
-    </form>
+    <div class="form-container">
+      <form [formGroup]="billForm" (ngSubmit)="saveBill()" (keyup.enter)="submit">
+        <div class="form-group due-date">
+          <label>Due Date:
+            <input class="form-control" formControlName="due_date">
+          </label>
+        </div>
+        <div class="form-group amount">
+          <label>Amount:
+            <input type="number" class="form-control" formControlName="amount">
+          </label>
+        </div>
+        <div class="form-group paid-to">
+          <label>Utility:
+            <select class="form-control" formControlName="paid_to">
+              <option *ngFor="let utility of utilities" [value]="utility.id">{{ utility.name | uppercase }}</option>
+            </select>
+          </label>
+        </div>
+        <div class="form-group split-by">
+          <label>Roommates:
+            <select multiple class="form-control" formControlName="split_by" ngModel>
+              <option *ngFor="let person of persons" [value]="person.id">{{ person.name | uppercase }}</option>
+            </select>
+          </label>
+        </div>
+        <div class="form-group notes">
+          <label>Notes:
+            <input class="form-control" formControlName="notes">
+          </label>
+        </div>
+        <button>Submit</button>
+      </form>
+    </div>
   `,
 })
 
@@ -77,10 +78,10 @@ export class BillFormComponent implements OnInit {
 
   createForm(): void {
     this.billForm = this.fb.group({
-      due_date: new Date().toLocaleDateString(),
-      amount: 0, 
-      paid_to: Utility, 
-      split_by: Person, 
+      due_date: [new Date().toLocaleDateString(), Validators.required],
+      amount: [0, Validators.required], 
+      paid_to: [Utility, Validators.required],
+      split_by: [Person, Validators.required], 
       notes: '',
     });
   }
@@ -104,11 +105,13 @@ export class BillFormComponent implements OnInit {
 
   saveBill(): void {
     console.log("bill", this.billForm);
-    let b = this.prepareSaveBill();
-    b.split_by_ids.forEach(
-      v => this.personService.updatePaymentsMade(b.split_amount, v)
-    );
-    this.billService.saveBill(b);
-    this.addedBill.emit(b);
+    if (this.billForm.valid) {
+      let b = this.prepareSaveBill();
+      b.split_by_ids.forEach(
+        v => this.personService.updatePaymentsMade(b.split_amount, v)
+      );
+      this.billService.saveBill(b);
+      this.addedBill.emit(b);
+    }
   }
 }

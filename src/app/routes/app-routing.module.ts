@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BillComponent } from '../components/bill.component';
 import { HomeComponent } from '../components/home.component';
+import { NotFoundComponent } from '../components/notfound.component';
 
 const routes: Routes = [
   {
@@ -14,8 +14,8 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'b',
-    component: BillComponent,
+    path: '404',
+    component: NotFoundComponent,
   }
 ];
 

@@ -41,7 +41,11 @@ export class PersonService {
       let persons = getLS('ngpersons');
       // id's are 1 indexed.
       let p = ((id - 1) < persons.length) ? persons[id - 1] : undefined;
-      p = new Person(p);
+      if (p) {
+        p = new Person(p);
+      } else {
+        p = {status_code: 404, status_message: 'No person found'};
+      }
       return Promise.resolve(p);
     } else {
       return this.http.get(`${this.url}/persons/${id}/`)

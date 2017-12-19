@@ -41,7 +41,11 @@ export class UtilityService {
       let utils = getLS('ngutilities');
       // id's are 1 indexed.
       let u = ((id - 1) < utils.length) ? utils[id - 1] : undefined;
-      u = new Utility(u);
+      if (u) {
+        u = new Utility(u);
+      } else { 
+        u = {status_code: 404, status_message: 'Utility not found'};
+      }
       return Promise.resolve(u);
     } else {
       return this.http.get(`${this.url}/utilities/${id}/`)
