@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 
 import { HomeComponent } from './components/home.component';
 import { NotFoundComponent } from './components/notfound.component';
+import { DatePicker } from './components/date-picker.component';
 
 import { BillModule } from './modules/bill.module';
 import { AppRoutingModule } from './routes/app-routing.module';

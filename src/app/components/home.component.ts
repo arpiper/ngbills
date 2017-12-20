@@ -33,4 +33,5 @@ export class HomeComponent implements OnInit {
         this.bills = res.filter(v => !v.paid_full);
       });
   }
+
 }

@@ -10,10 +10,13 @@ import { BillService } from '../services/bill.service';
 import { UtilityService } from '../services/utility.service';
 import { PersonService } from '../services/person.service';
 
+import { DatePicker } from '../components/date-picker.component';
+
 @Component({
   moduleId: module.id,
   selector: 'bill-form',
   template:`
+    <date-picker [classes]="tst" (datePicked)="console.log('bill', $event)"></date-picker>
     <div class="form-container">
       <form [formGroup]="billForm" (ngSubmit)="saveBill()" (keyup.enter)="submit">
         <div class="form-group due-date">

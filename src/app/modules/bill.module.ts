@@ -15,6 +15,8 @@ import { UtilityService } from '../services/utility.service';
 import { PersonService } from '../services/person.service';
 import { BillRoutingModule } from '../routes/bill-routing.module';
 
+import { DatePicker } from '../components/date-picker.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { BillRoutingModule } from '../routes/bill-routing.module';
     UtilityDetailComponent,
     PersonComponent,
     PersonDetailComponent,
+    DatePicker,
   ],
   providers: [
     BillService,
