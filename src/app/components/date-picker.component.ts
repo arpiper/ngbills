@@ -10,15 +10,20 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
         class="date-picker" 
         [ngClass]="classes"
         type="text" 
-        (focus)="showCalendar()" 
-        (focusout)="hideCalendar()">
+        (focus)="showCalendar()"
+        [value]="today.toLocaleDateString()">
       <div class="date-picker-calendar" *ngIf="show" [ngStyle]="position">
-        <div class="date-picker-header">{{ month }}</div>
+        <div class="date-picker-header">
+          <span class="date-picker-prev" (mousedown)="prevMonth(month.index - 1)"><</span>
+          <span>{{ month.name }}</span>
+          <span class="date-picker-next" (mousedown)="nextMonth(month.index + 1)">></span>
+        </div>
         <div 
           *ngFor="let d of days"
           class="date-picker-day" 
           [ngStyle]="setDayStyles(d)"
-          (click)="chooseDate(d)">
+          [ngClass]="d.classes"
+          (mousedown)="chooseDate($event, d)">
           {{ d.date.getDate() }}
         </div>
       </div>
@@ -28,7 +33,9 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
     .date-picker-container,
     .date-picker-calendar,
     .date-picker-header,
-    .date-picker-day {
+    .date-picker-day,
+    .date-picker-next,
+    .date-picker-prev {
       box-sizing: border-box;
     }
     .date-picker-container {
@@ -42,16 +49,38 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
       width: 100%;
       height: auto;
     }
+    .date-picker-header,
+    .date-picker-day {
+      text-align: center;
+      background-color: #ddd;
+      height: 20px;
+      padding: 2px;
+    }
     .date-picker-header {
       width: 100%;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .date-picker-day {
       position: absolute;
       width: 14.28%;
-      height: 20px;
-      text-align: center;
-      background-color: #ddd;
+    }
+    .date-picker-day.extra {
+      color: #888;
+    }
+    .date-picker-day.today {
+      color: #a33;
+    }
+    .date-picker-next,
+    .date-picker-prev {
+      width: 10%;
+    }
+    .date-picker-day:hover,
+    .date-picker-next:hover,
+    .date-picker-prev:hover {
+      cursor: pointer;
+      background-color: rgba(76, 175, 80, 1);
     }
   `],
 })
@@ -59,14 +88,15 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
 export class DatePicker implements OnInit {
   private today: Date;
   private days: Date[];
-  private month: string;
+  private month: object = {name: '', index: 0};
   private position: object = {};
   private names: string[] = [
     'January','February','March','April','May','June',
     'July','August','September','October','November','December'
   ];
   private show: boolean = false;
-  @Input() classes: string;
+
+  @Input() extraClass: string;
   @ViewChild('datePicker') private datePickerInput: ElementRef;
   @Output() datePicked: EventEmitter<any> = new EventEmitter();
 
@@ -75,23 +105,25 @@ export class DatePicker implements OnInit {
   ngOnInit(): void {
     this.today = new Date();
     this.days = this.getMonthArray(this.today);
-    console.log(this.days);
-    this.month = this.names[this.today.getUTCMonth()];
+    this.month = {
+      name: this.names[this.today.getUTCMonth()],
+      index: this.today.getUTCMonth(), 
+    };
     this.position = {
       top: `${this.datePickerInput.nativeElement.offsetHeight}px`,
       width: `${this.datePickerInput.nativeElement.offsetWidth}px`
     };
+    console.log(this.extraClass);
   }
 
   showCalendar(): void {
     console.log("show Calendar");
-    console.log(this.datePickerInput);
     this.show = true;
   }
 
-  hideCalendar(): void {
+  hideCalendar(evt): void {
     console.log("hide calendar");
-    // this.show = false;
+    this.show = false;
   }
 
   setDayStyles(d): object {
@@ -102,35 +134,66 @@ export class DatePicker implements OnInit {
     return styles;
   }
 
-  chooseDate(d: Date): void {
+  chooseDate(evt, d): void {
+    evt.preventDefault();
+    evt.stopPropagation();
     this.datePickerInput.nativeElement.value = d.date.toLocaleDateString();
-    this.hideCalendar();
-    this.datePicked.emit(d);
+    this.datePicked.emit(d.date);
+    this.hideCalendar(evt);
+  }
+
+  nextMonth(month_index): void {
+    let d = new Date(this.today.getUTCFullYear(), month_index, 1);
+    this.days = this.getMonthArray(d);
+    this.month = {
+      name: this.names[d.getUTCMonth()],
+      index: month_index,
+    };
+  }
+
+  prevMonth(month_index): void {
+    let d = new Date(this.today.getUTCFullYear(), month_index, 1);
+    this.days = this.getMonthArray(d);
+    this.month = {
+      name: this.names[d.getUTCMonth()],
+      index: month_index,
+    };
   }
 
   getMonthArray(d: Date): Date[] {
     let l = new Date(d.getUTCFullYear(), d.getUTCMonth() + 1, 0);
     let s = new Date(d.getUTCFullYear(), d.getUTCMonth(), 1);
+    let lastRow = 1;
     let a = [];
     if (s.getDay() !== 0) {
       for (let i = 1; i <= s.getDay(); i++) {
-        a.push({date: new Date(s.getUTCFullYear(), s.getUTCMonth(), i - s.getDay()), rowValue: 1});
+        a.push({
+          date: new Date(s.getUTCFullYear(), s.getUTCMonth(), i - s.getDay()), 
+          rowValue: lastRow,
+          classes: 'extra',
+        });
       }
     }
-    let lastRow = 0;
     let m = Array(l.getDate())
       .fill(1,0,l.getDate())
       .map(
         (v,i) => {
           let day = new Date(d.getUTCFullYear(), d.getUTCMonth(), i + 1);
-          lastRow = Math.floor(((day.getDate() - day.getDay()) / 7) + 2);
-          return {date: day, rowValue: lastRow};
+          lastRow = Math.abs(Math.floor((day.getDay() - day.getDate()) / 7)) + 1;
+          if (day.toDateString() === this.today.toDateString()) {
+            return {date: day, rowValue: lastRow, classes: 'today'};
+          }
+          return {date: day, rowValue: lastRow, classes: ''};
         }
       );
     let b = [];
     if (l.getDay() !== 6) {
       for (let i = 1; i < 7 - l.getDay(); i++) {
-        b.push({date: new Date(l.getUTCFullYear(), l.getUTCMonth() + 1, i), rowValue: lastRow});
+        b.push({
+          date: new Date(l.getUTCFullYear(), l.getUTCMonth() + 1, i), 
+          rowValue: lastRow,
+          classes: 'extra',
+        });
       }
     }
     return a.concat(m, b);

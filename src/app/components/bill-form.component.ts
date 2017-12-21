@@ -16,12 +16,12 @@ import { DatePicker } from '../components/date-picker.component';
   moduleId: module.id,
   selector: 'bill-form',
   template:`
-    <date-picker [classes]="tst" (datePicked)="console.log('bill', $event)"></date-picker>
     <div class="form-container">
       <form [formGroup]="billForm" (ngSubmit)="saveBill()" (keyup.enter)="submit">
         <div class="form-group due-date">
           <label>Due Date:
             <input class="form-control" formControlName="due_date">
+            <date-picker [extraClass]="TEst" (datePicked)="datePicked($event)"></date-picker>
           </label>
         </div>
         <div class="form-group amount">
@@ -87,6 +87,10 @@ export class BillFormComponent implements OnInit {
       split_by: [Person, Validators.required], 
       notes: '',
     });
+  }
+
+  datePicked(d): void {
+    console.log(d);
   }
 
   prepareSaveBill(): Bill {
