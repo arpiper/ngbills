@@ -8,7 +8,7 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
       <input 
         #datePicker 
         class="date-picker" 
-        [ngClass]="classes"
+        [ngClass]="extraClass"
         type="text" 
         (focus)="showCalendar()"
         [value]="today.toLocaleDateString()">

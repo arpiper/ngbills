@@ -21,7 +21,7 @@ import { DatePicker } from '../components/date-picker.component';
         <div class="form-group due-date">
           <label>Due Date:
             <input class="form-control" formControlName="due_date">
-            <date-picker [extraClass]="TEst" (datePicked)="datePicked($event)"></date-picker>
+            <date-picker [extraClass]="'test'" (datePicked)="datePicked($event)"></date-picker>
           </label>
         </div>
         <div class="form-group amount">
