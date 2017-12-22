@@ -6,6 +6,7 @@
 --color-secondary: #98541D;
 --color-gray-dark: #3C463C;
 --color-gray-light: #F9FBF9;
+--color-red: #C62828;
 }
 
 html, body {
@@ -110,6 +111,7 @@ nav .secondary li:hover {
 .content {
   grid-area: main;
   padding: 0 10px;
+  display: flex;
 }
 
 .footer {
@@ -119,6 +121,23 @@ nav .secondary li:hover {
 
 .footer p {
   margin: 0;
+}
+
+.content home-cmp,
+.active-bills,
+.bill {
+  display: flex;
+  flex: 1 1 100%;
+}
+
+.bill {
+  padding: 5px;
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
 }
 
 .inline-add {
@@ -155,6 +174,10 @@ nav .secondary li:hover {
   height: 28px;
 }
 
+a {
+  color: var(--color-main);
+}
+
 /* Buttons */
 button {
   border-style: none;
@@ -173,10 +196,19 @@ button.small {
   width: auto;
 }
 
+button.alert {
+  background-color: var(--color-red);
+  border-color: var(--color-red);
+}
+
 button:hover {
   cursor: pointer;
   background-color: var(--color-gray-light);
   color: var(--color-main);
+}
+
+button.alert:hover {
+  color: var(--color-red);
 }
 
 button:active {
@@ -188,6 +220,10 @@ button:active {
   color: var(--color-gray-light);
 }
 
+button.alert:active {
+  background-color: var(--color-red);
+}
+
 button:focus {
   outline: none;
 }
@@ -196,67 +232,6 @@ button:focus {
   content: "";
   display: table;
   clear: both;
-}
-
-/* Component Details */
-.container {
-  width: 75%;
-  margin: 0 auto;
-}
-
-.person span,
-.utility span {
-  font-size: 16px;
-  margin: 10px 2px;
-  padding: 5px 10px;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.bill-card .bill:hover,
-.person span:hover,
-.utility span:hover {
-  box-shadow: 0 1px 1px -1px black;
-  background-color: #eee;
-}
-
-.bill-card .bill:hover,
-.person span:active,
-.utility span:active {
-  box-shadow: none;
-}
-
-.inline {
-  width: 90%;
-  margin: 10px auto;
-  padding: 10px;
-  background-color: #fdfdfd;
-  box-shadow: 0 1px 2px 0 #ccc;
-  overflow: hidden;
-}
-
-.inline .bills {
-  padding: 10px 0;
-}
-
-.bill-card {
-  margin: 10px auto;
-}
-
-.bill-card .bill {
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.bill-card .bill .due-date,
-.bill-card .bill .amount,
-.bill-card .bill .utility {
-  padding: 5px 10px;
-}
-
-.bill-card .bill .utility {
 }
 
 /* Forms styles */

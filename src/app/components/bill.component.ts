@@ -9,25 +9,39 @@ import { BillService } from '../services/bill.service';
   moduleId: module.id,
   selector: 'bill-cmp',
   template: `
-    <h3>Bills</h3>
+    <div class="bills-header">
+      <h3>Bills</h3>
+      <div class="add-bill">
+        <span>
+          <button (click)="addBill()">Add New Bill</button>
+        </span>
+      </div>
+    </div>
     <div *ngIf="bills?.length === 0; then no_bills else list_bills"></div>
     <ng-template #no_bills>
       <p>There are no active bills.</p>
     </ng-template>
     <ng-template #list_bills>
-      <div *ngFor="let bill of bills">
+      <div class="bills-list" *ngFor="let bill of bills">
         <bill-detail-inline-cmp [bill]="bill">
         </bill-detail-inline-cmp>
       </div>
     </ng-template>
-    <div class="add-bill">
-      <span>
-        <button (click)="addBill()">Add New Bill</button>
-      </span>
-    </div>
     <bill-form *ngIf="showForm" (addedBill)="updateBills($event)"></bill-form>
   `,
-  styles: [],
+  styles: [`
+    :host {
+      display: flex;
+      flex: 1 0 100%;
+      flex-direction: column;
+    }
+    .bills-header {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+  `],
 })
 
 export class BillComponent implements OnInit {

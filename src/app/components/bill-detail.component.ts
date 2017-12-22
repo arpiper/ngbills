@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Bill } from '../models/bill';
+import { Person } from '../models/person';
 import { BillService } from '../services/bill.service';
 
 @Component({
@@ -9,27 +10,38 @@ import { BillService } from '../services/bill.service';
   template: `
     <div class="bill-details">
       <a routerLink="/bills/{{ bill.id }}">
-        <span class="paid-to">
-          {{ bill.paid_to.name }}
-        </span>
-        <span class="amount">
+        <div class="left">
+          <span class="paid-to">
+            <a routerLink="/utility/{{ bill.paid_to.id }}" >
+              {{ bill.paid_to.name | titlecase }}
+            </a>
+          </span>
+          <span class="due-date">
+            Due: {{ bill.due_date }}
+          </span>
+        </div>
+        <span class="amount right">
           {{ bill.amount | currency:USD }}
-        </span>
-        <span class="due-date">
-          {{ bill.due_date }}
         </span>
       </a>
     </div>
   `,
   styles: [`
+    :host {
+      flex: 1;
+    }
     .bill-details {
       display: flex;
-      width: 100%;
+      flex: 1 1 100%;
     }
-    .bill-details a {
+    .bill-details > a {
+      text-decoration: none;
       display: flex;
+      background-color: var(--color-gray-light);
+      color: var(--color-gray-dark);
+      justify-content: space-between;
+      padding: 10px;
       width: 100%;
-      color: #333;
     }
   `],
 })
@@ -56,11 +68,24 @@ export class BillDetailInlineComponent implements OnInit {
         {{ bill?.amount | currency:USD }}
       </div>
       <div class="split-by">
-        <span *ngFor="let person of bill?.split_by">
+        <div *ngFor="let person of bill?.split_by">
+          <div *ngIf="bill.paid_partial_ids.includes(person.id); then paid else unpaid">
+          </div>
+          <ng-template #paid>Paid</ng-template>
+          <ng-template #unpaid>
+            <span class="unpaid">
+              <button class="mark-person-paid toggle alert" (click)="togglePersonPaid(person)">
+                {{ person.name }}
+              </button>
+            </span>
+          </ng-template>
           <a routerLink="/person/{{ person.id }}">
-            {{ person.name }}
+            <span>{{ person.name }}</span>
           </a>
-        </span>
+        </div>
+      </div>
+      <div class="notes">
+        {{ bill?.notes }}
       </div>
     </div>
   `,
@@ -89,5 +114,18 @@ export class BillDetailComponent implements OnInit {
         }
         this.bill = res;
       });
+  }
+
+  togglePersonPaid(person: Person): void {
+    if (!this.bill.paid_partial.includes(person)) {
+      this.bill.paid_partial.push(person);
+      this.bill.paid_partial_ids.push(person.id);
+    } else {
+      let i = this.bill.paid_partial.findIndex(v => v.id === person.id);
+      this.bill.paid_partial.splice(i, 1);
+      i = this.bill.paid_partial_ids.indexOf(person.id);
+      this.bill.paid_partial_ids.splice(i, 1);
+    }
+    this.billService.updateBill(this.bill);
   }
 }

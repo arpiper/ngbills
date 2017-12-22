@@ -73,7 +73,7 @@ export class BillService {
     }
   }
 
-  updateBill(bill: Bill, updates: any[]): Promise<any> {
+  updateBill(bill: Bill): Promise<any> {
     if (this.local) {
       let bills = getLS('ngbills');
       bills[bill.id - 1] = bill;
