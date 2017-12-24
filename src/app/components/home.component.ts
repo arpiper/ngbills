@@ -13,7 +13,13 @@ import { BillDetailComponent } from './bill-detail.component';
       </div>
     </div>
   `,
-  styles: []
+  styles: [`
+    :root {
+      display: flex;
+      flex: 1 1 100%;
+      flex-wrap: wrap;
+    }
+  `]
 })
 
 export class HomeComponent implements OnInit {

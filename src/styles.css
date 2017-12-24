@@ -123,8 +123,12 @@ nav .secondary li:hover {
   margin: 0;
 }
 
-.content home-cmp,
+.active-bills {
+  flex-wrap: wrap;
+}
+
 .active-bills,
+.bill-detail,
 .bill {
   display: flex;
   flex: 1 1 100%;
