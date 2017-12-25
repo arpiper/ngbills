@@ -9,14 +9,16 @@ import { UtilityService } from '../services/utility.service';
   moduleId: module.id,
   selector: 'utility-cmp',
   template: `
-    <h3>Utility</h3>
-    <div class="add-utility">
-      <span *ngIf="no_name" class="alert">
-        No name entered
-      </span>
-      <input #utilityName type="text" placeholder="Utility"
-        (keyup.enter)="addUtility(utilityName.value); utilityName.value=''">
-      <button (click)="addUtility(utilityName.value); utilityName.value=''" >Add Utility</button>
+    <div class="utilities-header">
+      <h3>Utility</h3>
+      <div class="add-utility">
+        <span *ngIf="no_name" class="alert">
+          No name entered
+        </span>
+        <input #utilityName type="text" placeholder="Utility"
+          (keyup.enter)="addUtility(utilityName.value); utilityName.value=''">
+        <button (click)="addUtility(utilityName.value); utilityName.value=''" >Add Utility</button>
+      </div>
     </div>
     <div class="utilities">
       <div *ngFor="let utility of utilities">
@@ -26,11 +28,22 @@ import { UtilityService } from '../services/utility.service';
 
   `,
   styles: [`
-    .alert {
-      color: red;
+    :host {
+      width: 100%;
+      flex: 1 1 100%;
     }
-    .alert + input:focus {
-      outline-color: red;
+    .utilities-header,
+    .add-utility {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .utilities-header h3 {
+      flex: 2;
+    }
+    .add-utility {
+      flex: 3;
+      justify-content: space-evenly;
     }
   `],
 })

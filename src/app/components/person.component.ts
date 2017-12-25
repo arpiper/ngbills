@@ -11,14 +11,16 @@ import { PersonService } from '../services/person.service';
   moduleId: module.id,
   selector: 'person-cmp',
   template: `
-    <h3>Roommates</h3>
-    <div class="add-person">
-      <span *ngIf="no_name" class="alert">
-        No name entered
-      </span>
-      <input #personName type="text" placeholder="Person's name" 
-        (keyup.enter)="addPerson(personName.value); personName.value=''">
-      <button (click)="addPerson(personName.value); personName.value=''" >Add Person</button>
+    <div class="persons-header">
+      <h3>Roommates</h3>
+      <div class="add-person">
+        <span *ngIf="no_name" class="alert">
+          No name entered
+        </span>
+        <input #personName type="text" placeholder="Person's name" 
+          (keyup.enter)="addPerson(personName.value); personName.value=''">
+        <button (click)="addPerson(personName.value); personName.value=''" >Add Person</button>
+      </div>
     </div>
     <div class="persons">
       <div *ngFor="let person of persons">
@@ -27,11 +29,22 @@ import { PersonService } from '../services/person.service';
     </div>
   `,
   styles: [`
-    .alert {
-      color: red;
+    :host {
+      width: 100%;
+      flex: 1 1 100%;
     }
-    .alert + input:focus {
-      outline-color: red;
+    .persons-header,
+    .add-person {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .persons-header h3 {
+      flex: 2;
+    }
+    .add-person {
+      flex: 3;
+      justify-content: space-evenly;
     }
   `],
 })
