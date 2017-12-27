@@ -142,7 +142,7 @@ export class BillFormComponent implements OnInit {
       due_date: [new Date().toLocaleDateString(), Validators.required],
       amount: [0, Validators.compose([Validators.min(0.01),Validators.required])], 
       paid_to: [Utility, Validators.required],
-      split_by: [this.personsArray, Validators.required],
+      split_by: this.personsArray,
       notes: '',
     });
   }
@@ -151,7 +151,7 @@ export class BillFormComponent implements OnInit {
     console.log(d);
   }
 
-  prepareSaveBill(): Bill {
+  prepareSaveBill(): Bill | boolean {
     let bf = this.billForm.value;
     let u_id = this.utilities.findIndex((v) => v.id === +bf.paid_to);
     let p = [];
@@ -160,6 +160,9 @@ export class BillFormComponent implements OnInit {
         p.push(this.persons[i]);
       }
     });
+    if (p.length === 0) {
+      return false;
+    }
     let b = new Bill({
       due_date: this.billForm.value.due_date,
       amount: +this.billForm.value.amount,
@@ -170,9 +173,13 @@ export class BillFormComponent implements OnInit {
     return b;
   }
 
-  saveBill(): void {
+  saveBill(): void | boolean {
     if (this.billForm.valid) {
       let b = this.prepareSaveBill();
+      if (!b) {
+        this.addedBill.emit(false);
+        return false;
+      }
       b.split_by_ids.forEach(
         v => this.personService.updatePaymentsMade(b.split_amount, v)
       );
