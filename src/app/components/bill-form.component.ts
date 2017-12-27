@@ -151,7 +151,7 @@ export class BillFormComponent implements OnInit {
     console.log(d);
   }
 
-  prepareSaveBill(): Bill | boolean {
+  prepareSaveBill(): Bill {
     let bf = this.billForm.value;
     let u_id = this.utilities.findIndex((v) => v.id === +bf.paid_to);
     let p = [];
@@ -161,7 +161,7 @@ export class BillFormComponent implements OnInit {
       }
     });
     if (p.length === 0) {
-      return false;
+      return;
     }
     let b = new Bill({
       due_date: this.billForm.value.due_date,
