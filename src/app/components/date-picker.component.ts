@@ -6,6 +6,7 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
   template: `
     <div class="date-picker-container">
       <input 
+        autocomplete="off"
         #datePicker 
         class="date-picker" 
         [ngClass]="extraClass"
@@ -118,16 +119,13 @@ export class DatePicker implements OnInit {
       top: `${this.datePickerInput.nativeElement.offsetHeight}px`,
       width: `${this.datePickerInput.nativeElement.offsetWidth}px`
     };
-    console.log(this.extraClass);
   }
 
   showCalendar(): void {
-    console.log("show Calendar");
     this.show = true;
   }
 
   hideCalendar(evt): void {
-    console.log("hide calendar");
     this.show = false;
   }
 

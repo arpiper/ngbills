@@ -42,24 +42,23 @@ import { DatePicker } from '../components/date-picker.component';
         </div>
         <div class="form-group split-by">
           <label>Roommates:
-            <div class="split-by-checkboxes" *ngFor="let person of personsArray.controls">
-              <input type="checkbox"  formControlName="split_by" [id]="person.value.name" value="person.value.id">
-              <label [for]="person.value.name" >{{ person.value.name | uppercase }}</label>
+            <div class="split-by-checkboxes" *ngFor="let person of persons; let i = index" formArrayName="split_by">
+              <label>
+                <input type="checkbox" [formControlName]="i"  [id]="person.name" [value]="person.id">
+                {{ person.name | uppercase }}
+              </label>
             </div>
-            <!--select multiple class="form-control" formControlName="split_by" ngModel>
-              <option *ngFor="let person of persons" [value]="person.id">{{ person.name | uppercase }}</option>
-            </select-->
           </label>
         </div>
         <div class="form-group notes">
-          <label>Notes:
-            <textarea class="form-control" formControlName="notes" rows="5">
+          <label>notes:
+            <textarea class="form-control" formcontrolname="notes" rows="5">
             </textarea>
           </label>
         </div>
         <div class="buttons">
-          <button (click)="cancel()">Cancel</button>
-          <button (click)="sumbit">Submit</button>
+          <button (click)="cancel()">cancel</button>
+          <button (click)="sumbit">submit</button>
         </div>
       </form>
     </div>
@@ -86,15 +85,22 @@ import { DatePicker } from '../components/date-picker.component';
     }
     .form-container form {
     }
+    .form-group {
+      margin: 5px;
+    }
     .form-group,
     .form-control,
     label {
       width: 100%;
     }
+    .split-by-checkboxes label {
+      display: inline-block;
+      width: 90%;
+    }
     .buttons {
       display: flex;
       justify-content: space-between;
-      margin-top: 10px;
+      margin-top: 5px;
     }
   `]
 })
@@ -130,17 +136,15 @@ export class BillFormComponent implements OnInit {
 
   createForm(): void {
     this.personsArray = this.fb.array(this.persons.map((v) => {
-      return this.fb.control(v);
+      return this.fb.control(false);
     }));
     this.billForm = this.fb.group({
       due_date: [new Date().toLocaleDateString(), Validators.required],
-      amount: [0, Validators.required], 
+      amount: [0, Validators.compose([Validators.min(0.01),Validators.required])], 
       paid_to: [Utility, Validators.required],
       split_by: [this.personsArray, Validators.required],
       notes: '',
     });
-    console.log(this.billForm);
-    console.log(this.personsArray);
   }
 
   datePicked(d): void {
@@ -150,10 +154,11 @@ export class BillFormComponent implements OnInit {
   prepareSaveBill(): Bill {
     let bf = this.billForm.value;
     let u_id = this.utilities.findIndex((v) => v.id === +bf.paid_to);
-    console.log(bf.split_by);
-    let p = bf.split_by.map((v) => {
-      let p_id = this.persons.findIndex(v2 => v2.id === v);
-      return this.persons[p_id];
+    let p = [];
+    bf.split_by.forEach((v, i) => {
+      if (v) {
+        p.push(this.persons[i]);
+      }
     });
     let b = new Bill({
       due_date: this.billForm.value.due_date,
@@ -166,7 +171,6 @@ export class BillFormComponent implements OnInit {
   }
 
   saveBill(): void {
-    console.log("bill", this.billForm);
     if (this.billForm.valid) {
       let b = this.prepareSaveBill();
       b.split_by_ids.forEach(
@@ -182,7 +186,6 @@ export class BillFormComponent implements OnInit {
   }
 
   setPosition(): void {
-    console.log(this.container);
     let h = this.container.nativeElement.offsetHeight;
     let w = this.container.nativeElement.offsetWidth;
     h = (this.container.nativeElement.parentElement.offsetHeight / 2) - (h / 2);
