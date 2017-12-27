@@ -27,7 +27,7 @@ import { BillService } from '../services/bill.service';
         </bill-detail-inline-cmp>
       </div>
     </ng-template>
-    <bill-form *ngIf="showForm" (addedBill)="updateBills($event)"></bill-form>
+    <bill-form *ngIf="showForm" (addedBill)="updateBills($event)" (click)="closeForm($event)"></bill-form>
   `,
   styles: [`
     :host {
@@ -73,5 +73,11 @@ export class BillComponent implements OnInit {
       this.bills.push(bill);
     }
     this.showForm = false;
+  }
+  
+  closeForm(evt): void {
+    if (evt.target.nodeName === 'BILL-FORM') {
+      this.showForm = false;
+    }
   }
 }
