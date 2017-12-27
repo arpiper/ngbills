@@ -9,6 +9,7 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
         #datePicker 
         class="date-picker" 
         [ngClass]="extraClass"
+        name="name"
         type="text" 
         (focus)="showCalendar()"
         [value]="today.toLocaleDateString()">
@@ -40,6 +41,9 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
     }
     .date-picker-container {
       position: relative;
+    }
+    .date-picker {
+      width: 100%;
     }
     .date-picker-calendar {
       position: absolute;
@@ -97,6 +101,7 @@ export class DatePicker implements OnInit {
   private show: boolean = false;
 
   @Input() extraClass: string;
+  @Input() name: string;
   @ViewChild('datePicker') private datePickerInput: ElementRef;
   @Output() datePicked: EventEmitter<any> = new EventEmitter();
 

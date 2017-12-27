@@ -182,11 +182,11 @@ a {
   color: var(--color-main);
 }
 
-.alert {
+input.alert {
   color: red;
 }
 
-.alert + input:focus {
+input.alert + input:focus {
   outline-color: red;
 }
 
@@ -196,11 +196,11 @@ button {
   width: 110px;
   height: 35px;
   font-size: 16px;
-  /*box-shadow: 0 1px 2px -1px black;*/
   padding: 3px;
   background-color: var(--color-main);
   border: 3px solid var(--color-main);
   color: var(--color-gray-light);
+  margin: 5px;
 }
 
 button.small {

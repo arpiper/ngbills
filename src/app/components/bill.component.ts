@@ -69,7 +69,9 @@ export class BillComponent implements OnInit {
   }
   
   updateBills(bill): void {
-    this.bills.push(bill);
+    if (bill) {
+      this.bills.push(bill);
+    }
     this.showForm = false;
   }
 }

@@ -68,6 +68,7 @@ export class BillDetailInlineComponent implements OnInit {
         {{ bill?.amount | currency:USD }}
       </div>
       <div class="split-by">
+        <h4>Split By:</h4>
         <div *ngFor="let person of bill?.split_by">
           <div *ngIf="bill.paid_partial_ids.includes(person.id); then paid else unpaid">
           </div>
@@ -75,7 +76,7 @@ export class BillDetailInlineComponent implements OnInit {
           <ng-template #unpaid>
             <span class="unpaid">
               <button class="mark-person-paid toggle alert" (click)="togglePersonPaid(person)">
-                {{ person.name }}
+                Unpaid
               </button>
             </span>
           </ng-template>
@@ -85,7 +86,13 @@ export class BillDetailInlineComponent implements OnInit {
         </div>
       </div>
       <div class="notes">
-        {{ bill?.notes }}
+        <h4>Bill Notes:</h4>
+        <p>{{ bill?.notes }}</p>
+      </div>
+      <div class="delete">
+        <span>
+          <button class="alert" (click)="deleteBill()">Delete</button>
+        </span>
       </div>
     </div>
   `,
@@ -127,5 +134,13 @@ export class BillDetailComponent implements OnInit {
       this.bill.paid_partial_ids.splice(i, 1);
     }
     this.billService.updateBill(this.bill);
+  }
+
+  deleteBill(): void {
+    let choice = confirm("Are You Sure You Want to Delete This Bill?");
+    if (choice) {
+      this.billService.deleteBill(this.bill.id);
+      this.router.navigate(['/bills']);
+    }
   }
 }
