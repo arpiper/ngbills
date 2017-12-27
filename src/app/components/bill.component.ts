@@ -22,8 +22,8 @@ import { BillService } from '../services/bill.service';
       <p>There are no active bills.</p>
     </ng-template>
     <ng-template #list_bills>
-      <div class="bills-list" *ngFor="let bill of bills">
-        <bill-detail-inline-cmp [bill]="bill">
+      <div class="bills-list" >
+        <bill-detail-inline-cmp *ngFor="let bill of bills" [bill]="bill">
         </bill-detail-inline-cmp>
       </div>
     </ng-template>

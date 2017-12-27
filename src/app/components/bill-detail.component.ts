@@ -33,6 +33,7 @@ import { BillService } from '../services/bill.service';
     .bill-details {
       display: flex;
       flex: 1 1 100%;
+      margin: 5px 0;
     }
     .bill-details > a {
       text-decoration: none;
@@ -42,6 +43,9 @@ import { BillService } from '../services/bill.service';
       justify-content: space-between;
       padding: 10px;
       width: 100%;
+    }
+    .bill-details > a:hover {
+      background-color: rgba(0,0,0,0.25);
     }
   `],
 })
