@@ -90,7 +90,7 @@ export class PersonComponent implements OnInit {
     <div class="person-details">
       <h3>{{ person?.name }}</h3>
       <span class="total-paid">
-        {{ person?.payments_made | currency:USD }}
+        {{ person?.payments_made | currency:'USD' }}
       </span>
     </div>
     <div class="active-bills" *ngIf="bills">
