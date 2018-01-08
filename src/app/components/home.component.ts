@@ -23,7 +23,7 @@ import { BillDetailComponent } from './bill-detail.component';
 })
 
 export class HomeComponent implements OnInit {
-  private bills: Bill[];
+  bills: Bill[];
 
   constructor(
     private billService: BillService

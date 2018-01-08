@@ -91,15 +91,15 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
 })
 
 export class DatePicker implements OnInit {
-  private today: Date;
-  private days: Date[];
-  private month: object = {name: '', index: 0};
-  private position: object = {};
-  private names: string[] = [
+  today: Date;
+  days: Date[];
+  month: object = {name: '', index: 0};
+  position: object = {};
+  names: string[] = [
     'January','February','March','April','May','June',
     'July','August','September','October','November','December'
   ];
-  private show: boolean = false;
+  show: boolean = false;
 
   @Input() extraClass: string;
   @Input() name: string;

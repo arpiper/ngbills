@@ -106,12 +106,12 @@ import { DatePicker } from '../components/date-picker.component';
 })
 
 export class BillFormComponent implements OnInit {
-  private utilities: Utility[];
-  private persons: Person[];
-  private model: Bill;
-  private billForm: FormGroup;
-  private personsArray: FormArray;
-  private formPosition: {};
+  utilities: Utility[];
+  persons: Person[];
+  model: Bill;
+  billForm: FormGroup;
+  personsArray: FormArray;
+  formPosition: {};
   @Output() addedBill: EventEmitter<any> = new EventEmitter();
   @ViewChild('container') private container: ElementRef;
 

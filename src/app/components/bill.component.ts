@@ -45,8 +45,8 @@ import { BillService } from '../services/bill.service';
 })
 
 export class BillComponent implements OnInit {
-  private bills: Bill[];
-  private showForm: boolean = false;
+  bills: Bill[];
+  showForm: boolean = false;
 
   constructor(
     private billService: BillService,

@@ -49,9 +49,9 @@ import { UtilityService } from '../services/utility.service';
 })
 
 export class UtilityComponent implements OnInit {
-  private utilities: Utility[];
-  private addUtilityObj: Utility;
-  private no_name: boolean = false;
+  utilities: Utility[];
+  addUtilityObj: Utility;
+  no_name: boolean = false;
   @ViewChild('utilityName') private inputEl: ElementRef;
 
   constructor(
@@ -94,7 +94,7 @@ export class UtilityComponent implements OnInit {
 })
 
 export class UtilityDetailComponent implements OnInit {
-  private utility: Utility;
+  utility: Utility;
 
   constructor(
     private route: ActivatedRoute,

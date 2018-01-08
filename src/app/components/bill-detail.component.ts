@@ -104,7 +104,7 @@ export class BillDetailInlineComponent implements OnInit {
 })
 
 export class BillDetailComponent implements OnInit {
-  private bill: Bill;
+  bill: Bill;
 
   constructor(
     private route: ActivatedRoute,

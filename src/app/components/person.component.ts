@@ -50,9 +50,9 @@ import { PersonService } from '../services/person.service';
 })
 
 export class PersonComponent implements OnInit {
-  private addPersonObj: Person;
-  private persons: Person[];
-  private no_name: boolean = false;
+  addPersonObj: Person;
+  persons: Person[];
+  no_name: boolean = false;
   @ViewChild('personName') private inputEl: ElementRef;
 
   constructor(
@@ -105,10 +105,10 @@ export class PersonComponent implements OnInit {
 })
 
 export class PersonDetailComponent implements OnInit {
-  private id: number;
-  private person: Person;
-  private bills: Bill[];
-  private totalPaid: number = 0.0;
+  id: number;
+  person: Person;
+  bills: Bill[];
+  totalPaid: number = 0.0;
 
   constructor(
     private route: ActivatedRoute,
