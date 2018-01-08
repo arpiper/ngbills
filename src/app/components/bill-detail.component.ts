@@ -21,7 +21,7 @@ import { BillService } from '../services/bill.service';
           </span>
         </div>
         <span class="amount right">
-          {{ bill.amount | currency:USD }}
+          {{ bill.amount | currency:'USD' }}
         </span>
       </a>
     </div>
@@ -69,7 +69,7 @@ export class BillDetailInlineComponent implements OnInit {
         </a>
       </div>
       <div class="amount">
-        {{ bill?.amount | currency:USD }}
+        {{ bill?.amount | currency:'USD' }}
       </div>
       <div class="split-by">
         <h4>Split By:</h4>
