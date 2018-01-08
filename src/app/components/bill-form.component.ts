@@ -18,7 +18,7 @@ import { DatePicker } from '../components/date-picker.component';
   template:`
     <div class="form-container" [ngStyle]="formPosition" #container>
       <h3>Add New Bill</h3>
-      <form [formGroup]="billForm" (ngSubmit)="saveBill()" (keyup.enter)="submit">
+      <form [formGroup]="billForm" (ngSubmit)="onSubmit()">
         <div class="form-group due-date">
           <label>Due Date:
             <date-picker 
@@ -58,7 +58,7 @@ import { DatePicker } from '../components/date-picker.component';
         </div>
         <div class="buttons">
           <button (click)="cancel()">cancel</button>
-          <button (click)="sumbit">submit</button>
+          <button >submit</button>
         </div>
       </form>
     </div>
@@ -190,6 +190,10 @@ export class BillFormComponent implements OnInit {
 
   cancel(): void {
     this.addedBill.emit(false);
+  }
+
+  onSubmit(): void {
+    this.saveBill();
   }
 
   setPosition(): void {
