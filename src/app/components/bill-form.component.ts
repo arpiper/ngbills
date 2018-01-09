@@ -52,8 +52,7 @@ import { DatePicker } from '../components/date-picker.component';
         </div>
         <div class="form-group notes">
           <label>notes:
-            <textarea class="form-control" formcontrolname="notes" rows="5">
-            </textarea>
+            <textarea class="form-control" formcontrolname="notes" rows="5"></textarea>
           </label>
         </div>
         <div class="buttons">
