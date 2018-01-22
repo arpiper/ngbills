@@ -42,13 +42,11 @@ export class BillService {
     if (this.local) {
       let bills = getLS('ngbills');
       // id's are 1 indexed.
-      let b = ((id - 1) < bills.length) ? bills[id - 1] : undefined;
-      if (b) {
-        b = new Bill(b);
-      } else {
-        b = {status_code: 404, status_message: 'Bill not found'};
+      let idx = bills.findIndex((v) => v.id === id);
+      if (idx === -1) {
+        return Promise.resolve({status_code: 404, status_message: 'Bill not found'});
       }
-      return Promise.resolve(b);
+      return Promise.resolve(bills[idx]);
     } else {
       return this.http.get(`${this.url}/bills/${id}/`)
         .toPromise()
@@ -60,8 +58,11 @@ export class BillService {
   saveBill(bill: Bill): Promise<any> {
     if (this.local) {
       let bills = getLS('ngbills');
-      // bill id's are 1 indexed.
-      bill['id'] = bills.length + 1;
+      let last_bill = 0;
+      if (bills.length > 0) {
+        last_bill = bills[bills.length - 1].id;
+      }
+      bill['id'] = last_bill + 1;
       bills.push(bill);
       saveLS('ngbills', bills);
       return Promise.resolve(bill);
@@ -76,7 +77,8 @@ export class BillService {
   updateBill(bill: Bill): Promise<any> {
     if (this.local) {
       let bills = getLS('ngbills');
-      bills[bill.id - 1] = bill;
+      let idx = bills.findIndex((v) => v.id === bill.id);
+      bills[idx] = bill;
       saveLS('ngbills', bills);
       return Promise.resolve(bills);
     } else {
@@ -90,7 +92,8 @@ export class BillService {
   deleteBill(id: number): Promise<any> {
     if (this.local) {
       let bills = getLS('ngbills');
-      bills.splice(1, (id - 1));
+      let idx = bills.findIndex((v) => v.id === id);
+      bills.splice(idx, 1);
       saveLS('ngbills', bills);
       return Promise.resolve(id);
     } else {

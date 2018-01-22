@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Bill } from '../models/bill';
 import { Person } from '../models/person';
 import { BillService } from '../services/bill.service';
+import { PersonService } from '../services/person.service';
 
 @Component({
   moduleId: module.id,
@@ -110,6 +111,7 @@ export class BillDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private billService: BillService,
+    private personService: PersonService,
   ) {}
 
   ngOnInit(): void {
@@ -138,6 +140,7 @@ export class BillDetailComponent implements OnInit {
       this.bill.paid_partial_ids.splice(i, 1);
     }
     this.billService.updateBill(this.bill);
+    this.personService.updatePaymentsMade(this.bill.split_amount, person.id);
   }
 
   deleteBill(): void {

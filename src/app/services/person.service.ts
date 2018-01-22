@@ -40,13 +40,11 @@ export class PersonService {
     if (this.local) {
       let persons = getLS('ngpersons');
       // id's are 1 indexed.
-      let p = ((id - 1) < persons.length) ? persons[id - 1] : undefined;
-      if (p) {
-        p = new Person(p);
-      } else {
-        p = {status_code: 404, status_message: 'No person found'};
+      let idx = persons.findIndex((v) => v.id === id);
+      if (idx === -1) {
+        return Promise.resolve({status_code: 404, status_message: 'No person found'});
       }
-      return Promise.resolve(p);
+      return Promise.resolve(persons[idx]);
     } else {
       return this.http.get(`${this.url}/persons/${id}/`)
         .toPromise()
@@ -58,8 +56,11 @@ export class PersonService {
   savePerson(person: Person): Promise<any> {
     if (this.local) {
       let persons = getLS('ngpersons');
-      // id's are 1 indexed.
-      person['id'] = persons.length + 1;
+      let last_person = 0;
+      if (persons.length > 0) {
+        last_person = persons[persons.length - 1].id
+      }
+      person['id'] = last_person + 1;
       persons.push(person);
       saveLS('ngpersons', persons);
       return Promise.resolve(persons);
@@ -74,7 +75,8 @@ export class PersonService {
   updatePaymentsMade(val: number, id: number): Promise<any> {
     if (this.local) {
       let persons = getLS('ngpersons');
-      persons[id - 1].payments_made += val;
+      let idx = persons.findIndex((v) => v.id === id);
+      persons[idx].payments_made += val;
       saveLS('ngpersons', persons);
       return Promise.resolve(persons);
     } else {
@@ -88,7 +90,8 @@ export class PersonService {
   deletePerson(id: number): Promise<any> {
     if (this.local) {
       let persons = getLS('ngpersons');
-      persons.splice(1, (id - 1));
+      let idx = persons.findIndex((v) => v.id === id);
+      persons.splice(id, 1);
       saveLS('ngpersons', persons);
       return Promise.resolve(id);
     } else {

@@ -179,9 +179,6 @@ export class BillFormComponent implements OnInit {
         this.addedBill.emit(false);
         return false;
       }
-      b.split_by_ids.forEach(
-        v => this.personService.updatePaymentsMade(b.split_amount, v)
-      );
       this.billService.saveBill(b);
       this.addedBill.emit(b);
     }
