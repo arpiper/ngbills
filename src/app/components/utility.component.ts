@@ -22,7 +22,7 @@ import { UtilityService } from '../services/utility.service';
     </div>
     <div class="utilities">
       <div *ngFor="let utility of utilities">
-        {{ utility.name }}
+        <a routerLink="/utilities/{{ utility.id }}">{{ utility.name }}</a>
       </div>
     </div>
 

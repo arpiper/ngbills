@@ -24,7 +24,7 @@ import { PersonService } from '../services/person.service';
     </div>
     <div class="persons">
       <div *ngFor="let person of persons">
-        {{ person.name }}
+        <a routerLink="/persons/{{ person.id }}">{{ person.name }}</a>
       </div>
     </div>
   `,

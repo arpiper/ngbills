@@ -34,6 +34,11 @@ const billRoutes: Routes = [
   },
   {
     path: 'person/:id',
+    redirectTo: 'persons/:id',
+    pathMatch: 'full',
+  },
+  {
+    path: 'persons/:id',
     component: PersonDetailComponent,
   },
   { 
