@@ -14,10 +14,11 @@ import { BillDetailComponent } from './bill-detail.component';
     </div>
   `,
   styles: [`
-    :root {
+    :host {
       display: flex;
       flex: 1 1 100%;
       flex-wrap: wrap;
+      align-items: flex-start;
     }
   `]
 })
