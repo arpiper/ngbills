@@ -21,9 +21,14 @@ import { PersonService } from '../services/person.service';
             Due: {{ bill.due_date }}
           </span>
         </div>
-        <span class="amount right">
-          {{ bill.amount | currency:'USD' }}
-        </span>
+        <div class="amount right">
+          <div>
+            <span>Bill Total Amount: {{ bill.amount | currency:'USD' }}</span>
+          </div>
+          <div >
+            <span>Bill Split Amount: {{ bill.split_amount | currency: 'USD' }}</span>
+          </div>
+        </div>
       </a>
     </div>
   `,
