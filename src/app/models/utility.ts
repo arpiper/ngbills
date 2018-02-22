@@ -1,11 +1,11 @@
 export class Utility {
   id: number;
   name: string;
-  // payments_made: number;
+  payments: number;
 
   constructor(data: any) {
     this.id = data.id;
     this.name = data.name;
-    //payments_made = 0;
+    this.payments = (data.payments) ? data.payments : 0;
   }
 }

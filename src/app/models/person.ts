@@ -6,6 +6,6 @@ export class Person {
   constructor(data: any) {
     this.id = data.id;
     this.name = data.name;
-    this.payments_made = 0;
+    this.payments_made = (data.payments_made) ? data.payments_made : 0;
   }
 }
