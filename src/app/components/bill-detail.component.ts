@@ -70,43 +70,73 @@ export class BillDetailInlineComponent implements OnInit {
   template: `
     <div class="bill-details">
       <div class="paid-to">
-        <a routerLink="/utilities/{{ bill?.paid_to.id }}"> 
-          {{ bill?.paid_to.name | titlecase }}
-        </a>
+        <h3>
+          <a routerLink="/utilities/{{ bill?.paid_to.id }}"> 
+            {{ bill?.paid_to.name | titlecase }}
+          </a>
+        </h3>
       </div>
       <div class="amount">
-        {{ bill?.amount | currency:'USD' }}
+        <span class="label">Total Amount Due: </span>
+        <span class="value">{{ bill?.amount | currency:'USD' }}</span>
+      </div>
+      <div class="due-date">
+        <span class="label">Bill Due: </span>
+        <span class="value">{{ bill.due_date }}</span>
       </div>
       <div class="split-by">
         <h4>Split By:</h4>
         <div *ngFor="let person of bill?.split_by">
           <div *ngIf="bill.paid_partial_ids.includes(person.id); then paid else unpaid">
           </div>
-          <ng-template #paid>Paid</ng-template>
-          <ng-template #unpaid>
-            <span class="unpaid">
-              <button class="mark-person-paid toggle alert" (click)="togglePersonPaid(person)">
-                Unpaid
-              </button>
-            </span>
-          </ng-template>
           <a routerLink="/person/{{ person.id }}">
             <span>{{ person.name }}</span>
           </a>
+          <ng-template #paid>
+            <span class="">
+              <button class="unmark-person-paid" disabled>
+                <span class="checkmark"></span>
+              </button>
+            </span>
+            <span class="person-paid">Paid</span>
+          </ng-template>
+          <ng-template #unpaid>
+            <span class="person-unpaid">
+              <button class="mark-person-paid toggle alert" (click)="togglePersonPaid(person)">
+                Mark As Paid
+              </button>
+            </span>
+            <span>Unpaid</span>
+          </ng-template>
         </div>
       </div>
-      <div class="notes">
+      <div *ngIf="bill?.notes" class="notes">
         <h4>Bill Notes:</h4>
         <p>{{ bill?.notes }}</p>
       </div>
-      <div class="delete">
-        <span>
+      <div class="delete right">
+        <span class="">
           <button class="alert" (click)="deleteBill()">Delete</button>
         </span>
       </div>
     </div>
   `,
-  styles: []
+  styles: [`
+    :host {
+      width: 100%;
+    }
+    .paid-to {
+      font-weight: bold;
+    }
+    .amount .label,
+    .amount .value {
+      font-size: 14pt;
+      font-weight: bold;
+    }
+    .amount .value {
+      color: var(--color-red);
+    }
+  `]
 })
 
 export class BillDetailComponent implements OnInit {
