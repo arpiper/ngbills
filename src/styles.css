@@ -145,6 +145,10 @@ nav .secondary li:hover {
   flex-direction: column;
 }
 
+.right {
+  align-items: flex-end;
+}
+
 .inline-add {
   display: flex;
   justify-content: center;
@@ -245,6 +249,52 @@ button:focus {
   content: "";
   display: table;
   clear: both;
+}
+
+.checkmark,
+.chevron {
+  display: inline-block;
+  padding: 0 10px;
+  margin-top: -4px;
+  cursor: pointer;
+}
+.chevron.up {
+  margin-top: 10px;
+}
+.chevron.up:after {
+  transform: rotate(225deg);
+}
+.chevron.left:after {
+  margin-left: 10px;
+  transform: rotate(135deg);
+}
+.chevron.right:after {
+  margin-right: 10px;
+  transform: rotate(315deg);
+}
+.checkmark.watched:after,
+.checkmark.checked:after {
+  border-color: green;
+}
+.checkmark:after {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 20px;
+  border-color: white;
+  border-style: solid;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+.chevron:after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  transition: transform .25s;
 }
 
 /* Forms styles */

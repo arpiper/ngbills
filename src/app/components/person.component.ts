@@ -89,25 +89,43 @@ export class PersonComponent implements OnInit {
   template: `
     <div class="person-details">
       <h3>{{ person?.name }}</h3>
-      <span class="total-paid">
-        {{ person?.payments_made | currency:'USD' }}
+      <span class="total-paid right">
+        <span>Total Paid</span>
+        <span>{{ person?.payments_made | currency:'USD' }}</span>
       </span>
     </div>
-    <div class="active-bills" *ngIf="bills">
+    <div class="active-bills" *ngIf="unpaid_bills">
       <h4>Currently Unpaid Bills</h4>
-      <div *ngFor="let bill of bills" class="bill-detail">
+      <div *ngFor="let bill of unpaid_bills" class="bill-detail">
+        <bill-detail-inline-cmp [bill]="bill">
+        </bill-detail-inline-cmp>
+      </div>
+    </div>
+    <div class="paid-bills" *ngIf="paid_bills">
+      <span>
+        <h4>Paid Bills</h4>
+        <span class="chevron-up"></span>
+      </span>
+      <div *ngFor="let bill of paid_bills" class="bill-detail">
         <bill-detail-inline-cmp [bill]="bill">
         </bill-detail-inline-cmp>
       </div>
     </div>
   `,
-  styles: []
+  styles: [`
+    .person-details {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  `]
 })
 
 export class PersonDetailComponent implements OnInit {
   id: number;
   person: Person;
-  bills: Bill[];
+  paid_bills: Bill[];
+  unpaid_bills: Bill[];
   totalPaid: number = 0.0;
 
   constructor(
@@ -125,19 +143,22 @@ export class PersonDetailComponent implements OnInit {
 
   getPerson(): void {
     this.personService.getPerson(this.id).then(
-      res => {
-        if (res.status_code === 404) {
+      response => {
+        if (response.status_code === 404) {
           this.router.navigate(["/404"]);
         }
-        this.person = res;
+        this.person = response;
       });
   }
 
   getActiveBills(): void {
     this.billService.getBills().then(
-      res => {
-        this.bills = res.filter(
-          v => v.split_by_ids.includes(this.id)
+      response => {
+        this.unpaid_bills = response.filter(
+          v => (v.split_by_ids.includes(this.id) && !v.paid_partial_ids.includes(this.id))
+        )
+        this.paid_bills = response.filter(
+          v => (v.split_by_ids.includes(this.id) && v.paid_partial_ids.includes(this.id))
         )
       });
   }

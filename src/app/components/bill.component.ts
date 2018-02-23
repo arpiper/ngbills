@@ -17,16 +17,22 @@ import { BillService } from '../services/bill.service';
         </span>
       </div>
     </div>
-    <div *ngIf="bills?.length === 0; then no_bills else list_bills"></div>
+    <div *ngIf="unpaid_bills?.length === 0; then no_bills else list_bills"></div>
     <ng-template #no_bills>
       <p>There are no active bills.</p>
     </ng-template>
     <ng-template #list_bills>
       <div class="bills-list" >
-        <bill-detail-inline-cmp *ngFor="let bill of bills" [bill]="bill">
+        <h3>Currently Unpaid Bills</h3>
+        <bill-detail-inline-cmp *ngFor="let bill of unpaid_bills" [bill]="bill">
         </bill-detail-inline-cmp>
       </div>
     </ng-template>
+    <div class="bills-list">
+      <h3>Paid Bills</h3>
+      <bill-detail-inline-cmp *ngFor="let bill of paid_bills" [bill]="bill">
+      </bill-detail-inline-cmp>
+    </div>
     <bill-form *ngIf="showForm" (addedBill)="updateBills($event)" (click)="closeForm($event)"></bill-form>
   `,
   styles: [`
@@ -45,7 +51,8 @@ import { BillService } from '../services/bill.service';
 })
 
 export class BillComponent implements OnInit {
-  bills: Bill[];
+  paid_bills: Bill[] = [];
+  unpaid_bills: Bill[] = [];
   showForm: boolean = false;
 
   constructor(
@@ -54,13 +61,22 @@ export class BillComponent implements OnInit {
   ) {}
   
   ngOnInit(): void {
+    this.paid_bills;
+    this.unpaid_bills;
     this.getBills();
   }
 
   getBills(): void {
     this.billService.getBills().then(
       (bills) => {
-        this.bills = bills;
+        //this.bills = bills;
+        bills.forEach((v,i) => {
+          if (v.paid_full) {
+            this.paid_bills.push(v);
+          } else {
+            this.unpaid_bills.push(v);
+          }
+        });
       });
   }
 
@@ -70,7 +86,7 @@ export class BillComponent implements OnInit {
   
   updateBills(bill): void {
     if (bill) {
-      this.bills.push(bill);
+      this.unpaid_bills.push(bill);
     }
     this.showForm = false;
   }
