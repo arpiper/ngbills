@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { animate, keyframes, trigger, transition, style, state } from '@angular/animations';
 
 import { Bill } from '../models/bill';
 import { Utility } from '../models/utility';
@@ -101,24 +102,34 @@ export class PersonComponent implements OnInit {
         </bill-detail-inline-cmp>
       </div>
     </div>
-    <div class="paid-bills" *ngIf="paid_bills">
-      <span>
+    <div class="paid-bills" (click)="showPaidBills = !showPaidBills">
+      <span class="label">
         <h4>Paid Bills</h4>
-        <span class="chevron-up"></span>
+        <span [class]="showPaidBills ? 'chevron up' : 'chevron'"></span>
       </span>
-      <div *ngFor="let bill of paid_bills" class="bill-detail">
-        <bill-detail-inline-cmp [bill]="bill">
-        </bill-detail-inline-cmp>
+      <div *ngIf="showPaidBills" @animateBills>
+        <div *ngFor="let bill of paid_bills" class="bill-detail">
+          <bill-detail-inline-cmp [bill]="bill">
+          </bill-detail-inline-cmp>
+        </div>
       </div>
     </div>
   `,
-  styles: [`
-    .person-details {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-  `]
+  styles: [],
+  animations: [
+    trigger('animateBills', [
+      state('*', style({opacity: 1, transform: 'translateY(0)'})),
+      transition('void => *', [
+        style({opacity: 0, transform: 'translateY(-15%)'}),
+        animate('0.5s ease-in')
+      ]),
+      state('void', style({opacity: 0, transform: 'translateY(-25%)'})),
+      transition('* => void', [
+        style({opacity: 1, transform: 'translateY(0)'}),
+        animate('0.5s ease-out')
+      ])
+    ])
+  ]
 })
 
 export class PersonDetailComponent implements OnInit {
@@ -127,6 +138,7 @@ export class PersonDetailComponent implements OnInit {
   paid_bills: Bill[];
   unpaid_bills: Bill[];
   totalPaid: number = 0.0;
+  showPaidBills: boolean = false;
 
   constructor(
     private route: ActivatedRoute,

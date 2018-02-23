@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { animate, keyframes, trigger, transition, style, state } from '@angular/animations';
 
 import { Bill } from '../models/bill';
 import { BillService } from '../services/bill.service';
@@ -26,7 +27,6 @@ import { UtilityService } from '../services/utility.service';
         <a routerLink="/utilities/{{ utility.id }}">{{ utility.name }}</a>
       </div>
     </div>
-
   `,
   styles: [`
     :host {
@@ -89,7 +89,7 @@ export class UtilityComponent implements OnInit {
   template: `
     <div class="utility-details">
       <h2>{{ utility?.name }}</h2>
-      <span>
+      <span class="right">
         <span class="label">Total Payments</span>
         <span class="value">{{ utility?.payments | currency: 'USD' }}</span>
       </span>
@@ -101,17 +101,46 @@ export class UtilityComponent implements OnInit {
         </bill-detail-inline-cmp>
       </div>
     </div>
+    <div class="paid-bills" (click)="showPaidBills = !showPaidBills">
+      <span class="label">
+        <h3>Paid Bills</h3>
+        <span [class]="showPaidBills ? 'chevron up': 'chevron'"></span>
+      </span>
+      <div *ngIf="showPaidBills" @animateBills>
+        <div *ngFor="let bill of paid_bills" class="bill-detail">
+          <bill-detail-inline-cmp [bill]="bill">
+          </bill-detail-inline-cmp>
+        </div>
+      </div>
+    </div>
   `,
   styles: [`
     :host {
       width: 100%;
     }
   `],
+  animations: [
+    trigger('animateBills', [
+      state('*', style({opacity: 1, transform: 'translateY(0)'})),
+      transition('void => *', [
+        style({opacity: 0, transform: 'translateY(-15%)'}),
+        animate('0.5s ease-in')
+      ]),
+      state('void', style({opacity: 0, transform: 'translateY(-25%)'})),
+      transition('* => void', [
+        style({opacity: 1, transform: 'translateY(0)'}),
+        animate('0.5s ease-out')
+      ])
+    ])
+  ]
 })
 
 export class UtilityDetailComponent implements OnInit {
+  id: number;
   utility: Utility;
+  paid_bills: Bill[];
   unpaid_bills: Bill[];
+  showPaidBills: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -121,13 +150,13 @@ export class UtilityDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.id = +this.route.snapshot.paramMap.get('id');
     this.getUtility();
     this.getBills();
   }
 
   getUtility(): void {
-    let id = +this.route.snapshot.paramMap.get('id');
-    this.utilityService.getUtility(id).then(
+    this.utilityService.getUtility(this.id).then(
       res => {
         if (res.status_code === 404) {
           this.router.navigate(['/404']);
@@ -140,9 +169,15 @@ export class UtilityDetailComponent implements OnInit {
     this.billService.getBills().then(
       response => {
         this.unpaid_bills = response.filter(
-          v => (v.id === this.utility.id && !v.paid_full)
-        )
+          v => (v.paid_to.id === this.id && !v.paid_full)
+        );
+        this.paid_bills = response.filter(
+          v => (v.paid_to.id === this.id && v.paid_full)
+        );
       }
     );
+  }
+
+  showBills(): void {
   }
 }
