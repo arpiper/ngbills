@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Bill } from '../models/bill';
+import { BillService } from '../services/bill.service';
 import { Utility } from '../models/utility';
 import { UtilityService } from '../services/utility.service';
 
@@ -87,23 +88,41 @@ export class UtilityComponent implements OnInit {
   selector: 'utility-detail-cmp',
   template: `
     <div class="utility-details">
-      <h3>{{ utility?.name }}</h3>
+      <h2>{{ utility?.name }}</h2>
+      <span>
+        <span class="label">Total Payments</span>
+        <span class="value">{{ utility?.payments | currency: 'USD' }}</span>
+      </span>
+    </div>
+    <div class="active-bills">
+      <h3>Currently Unpaid Bills</h3>
+      <div *ngFor="let bill of unpaid_bills" class="bill-detail">
+        <bill-detail-inline-cmp [bill]="bill">
+        </bill-detail-inline-cmp>
+      </div>
     </div>
   `,
-  styles: [],
+  styles: [`
+    :host {
+      width: 100%;
+    }
+  `],
 })
 
 export class UtilityDetailComponent implements OnInit {
   utility: Utility;
+  unpaid_bills: Bill[];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private utilityService: UtilityService,
+    private billService: BillService,
   ) {}
 
   ngOnInit(): void {
     this.getUtility();
+    this.getBills();
   }
 
   getUtility(): void {
@@ -115,5 +134,15 @@ export class UtilityDetailComponent implements OnInit {
         }
         this.utility = res;
       });
+  }
+
+  getBills(): void {
+    this.billService.getBills().then(
+      response => {
+        this.unpaid_bills = response.filter(
+          v => (v.id === this.utility.id && !v.paid_full)
+        )
+      }
+    );
   }
 }
