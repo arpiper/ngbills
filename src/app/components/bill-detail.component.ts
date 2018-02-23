@@ -14,7 +14,7 @@ import { UtilityService } from '../services/utility.service';
       <a routerLink="/bills/{{ bill.id }}">
         <div class="left">
           <span class="paid-to">
-            <a routerLink="/utility/{{ bill.paid_to.id }}" >
+            <a routerLink="/utilities/{{ bill.paid_to.id }}" >
               {{ bill.paid_to.name | titlecase }}
             </a>
           </span>
