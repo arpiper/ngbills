@@ -4,6 +4,7 @@ import { Bill } from '../models/bill';
 import { Person } from '../models/person';
 import { BillService } from '../services/bill.service';
 import { PersonService } from '../services/person.service';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   moduleId: module.id,
@@ -82,7 +83,7 @@ export class BillDetailInlineComponent implements OnInit {
       </div>
       <div class="due-date">
         <span class="label">Bill Due: </span>
-        <span class="value">{{ bill.due_date }}</span>
+        <span class="value">{{ bill?.due_date }}</span>
       </div>
       <div class="split-by">
         <h4>Split By:</h4>
@@ -147,6 +148,7 @@ export class BillDetailComponent implements OnInit {
     private router: Router,
     private billService: BillService,
     private personService: PersonService,
+    private utilityService: UtilityService
   ) {}
 
   ngOnInit(): void {
@@ -173,6 +175,10 @@ export class BillDetailComponent implements OnInit {
       this.bill.paid_partial.splice(i, 1);
       i = this.bill.paid_partial_ids.indexOf(person.id);
       this.bill.paid_partial_ids.splice(i, 1);
+    }
+    if (this.bill.paid_partial.length === this.bill.split_by.length) {
+      this.bill.paid_full = true;
+      this.utilityService.updatePayments(this.bill.amount, this.bill.paid_to.id);
     }
     this.billService.updateBill(this.bill);
     this.personService.updatePaymentsMade(this.bill.split_amount, person.id);

@@ -67,12 +67,24 @@ export class UtilityService {
       return this.http.put(`${this.url}/utilities/`, JSON.stringify(utility), {headers: this.headers})
         .toPromise()
         .then((res) => res.json())
-        .catch((res) => this.handleError(res))
+        .catch((res) => this.handleError(res));
     }
   }
 
-  //updatePaymentsMade(val: number, id: number): Promise<any> {
-  //}
+  updatePayments(val: number, id: number): Promise<any> {
+    if (this.local) {
+      let utilities = getLS('ngutilities');
+      let idx = utilities.findIndex(v => v.id === id);
+      utilities[idx].payments += val;
+      saveLS('ngutilities', utilities); 
+      return Promise.resolve(utilities);
+    } else {
+      return this.http.put(`${this.url}/utilities/${id}`, JSON.stringify(val), {headers: this.headers})
+        .toPromise()
+        .then((response) => response.json())
+        .catch((response) => this.handleError(response));
+    }
+  }
   
   deleteUtility(id: number): Promise<any> {
     if (this.local) {
