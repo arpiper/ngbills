@@ -255,14 +255,20 @@ button:focus {
 .chevron {
   display: inline-block;
   padding: 0 10px;
-  margin-top: -4px;
+  margin-top: -10px;
   cursor: pointer;
+  transition: transform .25s, margin .25s;
+}
+.checkmark {
+  margin-top: -4px;
 }
 .chevron.up {
   margin-top: 10px;
+  transform: rotateX(180deg);
+  transition: transform .25s, margin .25s;
 }
 .chevron.up:after {
-  transform: rotate(225deg);
+  /*transform: rotate(225deg);*/
 }
 .chevron.left:after {
   margin-left: 10px;
@@ -289,16 +295,15 @@ button:focus {
 .chevron:after {
   content: "";
   display: block;
-  width: 20px;
-  height: 20px;
-  border: solid white;
+  width: 15px;
+  height: 15px;
+  border: solid #aaa;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
-  transition: transform .25s;
 }
 
 /* Forms styles */
-.ng-vadid[required], .ng-vaid.required {
+.ng-valid[required], .ng-valid.required {
   border-left: 5px solid #42A948;
 }
 
@@ -315,4 +320,19 @@ button:focus {
 
 label { 
   margin-top: 5px;
+}
+
+/*
+ * Overlapping Component styles
+ */
+.person-detail,
+.utility-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.paid-bills .label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
