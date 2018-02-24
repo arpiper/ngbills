@@ -16,6 +16,7 @@ import { PersonService } from '../services/person.service';
 import { BillRoutingModule } from '../routes/bill-routing.module';
 
 import { DatePicker } from '../components/date-picker.component';
+import { ChartComponent } from '../components/chart.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { DatePicker } from '../components/date-picker.component';
     PersonComponent,
     PersonDetailComponent,
     DatePicker,
+    ChartComponent,
   ],
   providers: [
     BillService,

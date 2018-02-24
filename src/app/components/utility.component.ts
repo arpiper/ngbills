@@ -94,6 +94,13 @@ export class UtilityComponent implements OnInit {
         <span class="value">{{ utility?.payments | currency: 'USD' }}</span>
       </span>
     </div>
+    <div class="payment-graph">
+      <h4>Bill History</h4>
+      <div>
+        <chart-cmp [data]="paid_bills" chartid="testid">
+        </chart-cmp>
+      </div>
+    </div>
     <div class="active-bills">
       <h3>Currently Unpaid Bills</h3>
       <div *ngFor="let bill of unpaid_bills" class="bill-detail">
