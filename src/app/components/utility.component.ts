@@ -97,7 +97,7 @@ export class UtilityComponent implements OnInit {
     <div class="payment-graph">
       <h4>Bill History</h4>
       <div>
-        <chart-cmp [data]="paid_bills" chartid="testid">
+        <chart-cmp [data]="paid_bills" chartid="utilitychart">
         </chart-cmp>
       </div>
     </div>
@@ -183,8 +183,5 @@ export class UtilityDetailComponent implements OnInit {
         );
       }
     );
-  }
-
-  showBills(): void {
   }
 }
