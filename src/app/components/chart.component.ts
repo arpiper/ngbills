@@ -157,27 +157,31 @@ export class ChartComponent implements OnInit {
       .data(this.values).enter()
         .append('g')
           .attr('class', 'hover-g')
+    // highlight bar over the height of the point.
     g.append('rect')
       .attr('class', 'hover-bar')
       .attr('x', (d,i) => this.scales.x(this.x_labels[i]) + this.scales.x.step() / 2 - 10)
       .attr('y', (d) => this.scales.y(d) - 10)
       .attr('width', 20)
       .attr('height', (d,i) => (this.settings.height - this.settings.margin) - this.scales.y(d) + 10)
+    // box to 'contain' the y-value of the point
     g.append('rect')
       .attr('class', 'hover-value-rect')
-      .attr('x', (d,i) => this.scales.x(this.x_labels[i]) + (this.scales.x.step() / 2) - 20)
-      .attr('y', (d) => this.scales.y(d) - 35)
-      .attr('width', 40)
+      .attr('x', (d,i) => {
+        let x = this.scales.x(this.x_labels[i]) + (this.scales.x.step() / 2)
+        return x - ((d.toString().length * 10 + 10) + 15)
+      })
+      .attr('y', (d) => (this.settings.height - this.settings.margin) / 2)
+      .attr('width', (d) => d.toString().length * 10 + 10)
       .attr('height', 20)
+    // y-value of the point.
     g.append('text')
       .attr('class', 'hover-value')
       .attr('x', (d,i) => {
-        let c = this.scales.x(this.x_labels[i]) + (this.scales.x.step() / 2)
-        let w = d.toString().length * 10
-        console.log('hover text x value', c, w)
-        return c - (w / 2)
+        let x = this.scales.x(this.x_labels[i]) + (this.scales.x.step() / 2)
+        return x - ((d.toString().length * 10) + 5 + 15)
       })
-      .attr('y', (d) => this.scales.y(d) - 20)
-      .text((d) => d)
+      .attr('y', (d) => ((this.settings.height - this.settings.margin) / 2) + 15)// this.scales.y(d) - 20)
+      .text((d) => '$' + d)
   }
 }
