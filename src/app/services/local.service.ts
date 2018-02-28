@@ -19,7 +19,7 @@ let bills = [
   new Bill({
     id: 6,
     due_date: "9/27/2017",
-    amount: 173, 
+    amount: 173.34, 
     paid_to: utilities[1], 
     split_by: persons,
     paid_full: true,
@@ -30,7 +30,7 @@ let bills = [
   new Bill({
     id: 7,
     due_date: "11/27/2017",
-    amount: 157, 
+    amount: 157.62, 
     paid_to: utilities[1], 
     split_by: persons,
     paid_full: true,
@@ -41,7 +41,7 @@ let bills = [
   new Bill({
     id: 8,
     due_date: "11/23/2017",
-    amount: 193, 
+    amount: 193.24, 
     paid_to: utilities[1], 
     split_by: persons,
     paid_full: true,
