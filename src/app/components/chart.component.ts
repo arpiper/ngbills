@@ -36,7 +36,8 @@ import * as d3 from 'd3';
     }
     .hover-value {
       fill: black;
-      font: 10pt mono;
+      font-size: 10pt;
+      font-family: "Courier New", Courier, monospace;
     }
     .hover-g:hover .hover-bar,
     .hover-g:hover .hover-value-rect {
