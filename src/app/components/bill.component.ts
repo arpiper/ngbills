@@ -68,9 +68,9 @@ export class BillComponent implements OnInit {
 
   getBills(): void {
     this.billService.getBills().then(
-      (bills) => {
+      (res) => {
         //this.bills = bills;
-        bills.forEach((v,i) => {
+        res.data.bills.forEach((v,i) => {
           if (v.paid_full) {
             this.paid_bills.push(v);
           } else {

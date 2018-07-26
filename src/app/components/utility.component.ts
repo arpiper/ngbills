@@ -143,7 +143,7 @@ export class UtilityComponent implements OnInit {
 })
 
 export class UtilityDetailComponent implements OnInit {
-  id: number;
+  id: string;
   utility: Utility;
   paid_bills: Bill[];
   unpaid_bills: Bill[];
@@ -157,7 +157,7 @@ export class UtilityDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.id = +this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
     this.getUtility();
     this.getBills();
   }

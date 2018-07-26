@@ -37,7 +37,9 @@ export class HomeComponent implements OnInit {
   getActiveBills(): void {
     this.billService.getBills().then(
       (res) => {
-        this.bills = res.filter(v => !v.paid_full);
+        let d = res.data;
+        console.log(res.data);
+        this.bills = d.bills.map(v => new Bill(v)).filter(v => !v.paid_full);
       });
   }
 

@@ -133,7 +133,7 @@ export class PersonComponent implements OnInit {
 })
 
 export class PersonDetailComponent implements OnInit {
-  id: number;
+  id: string;
   person: Person;
   paid_bills: Bill[];
   unpaid_bills: Bill[];
@@ -148,7 +148,7 @@ export class PersonDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.id = +this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
     this.getPerson();
     this.getActiveBills();
   }

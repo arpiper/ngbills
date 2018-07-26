@@ -29,15 +29,15 @@ export class UtilityService {
       });
       return Promise.resolve(utils);
     } else {
-      return this.http.get(`${this.url}/utilities/`)
+      return this.http.get(`${this.url}/utilities/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => res.json().map(v => new Utility(v)))
+        .then((res: Response) => res.json())
         .catch((res) => this.handleError(res));
     }
   }
 
-  getUtility(id: number): Promise<any> {
-    if (this.local) {
+  getUtility(id: number | string): Promise<any> {
+    if (this.local && typeof(id) === 'number') {
       let utils = getLS('ngutilities');
       // id's are 1 indexed.
       let u = ((id - 1) < utils.length) ? utils[id - 1] : undefined;
@@ -48,7 +48,7 @@ export class UtilityService {
       }
       return Promise.resolve(u);
     } else {
-      return this.http.get(`${this.url}/utilities/${id}/`)
+      return this.http.get(`${this.url}/utilities/${id}/`, {headers: this.headers})
         .toPromise()
         .then((res: Response) => res.json())
         .catch((res) => this.handleError(res));

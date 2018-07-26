@@ -29,15 +29,15 @@ export class PersonService {
       });
       return Promise.resolve(persons);
     } else {
-      return this.http.get(`${this.url}/persons/`)
+      return this.http.get(`${this.url}/persons/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => res.json().map(v => new Person(v)))
+        .then((res: Response) => res.json())
         .catch((res) => this.handleError(res));
     }
   }
 
-  getPerson(id: number): Promise<any> {
-    if (this.local) {
+  getPerson(id: number | string): Promise<any> {
+    if (this.local && typeof(id) === 'number') {
       let persons = getLS('ngpersons');
       // id's are 1 indexed.
       let idx = persons.findIndex((v) => v.id === id);
@@ -46,7 +46,7 @@ export class PersonService {
       }
       return Promise.resolve(persons[idx]);
     } else {
-      return this.http.get(`${this.url}/persons/${id}/`)
+      return this.http.get(`${this.url}/persons/${id}/`, {headers: this.headers})
         .toPromise()
         .then((res: Response) => res.json())
         .catch((res) => this.handleError(res));

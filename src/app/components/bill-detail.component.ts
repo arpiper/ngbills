@@ -90,7 +90,7 @@ export class BillDetailInlineComponent implements OnInit {
         <div *ngFor="let person of bill?.split_by">
           <div *ngIf="bill.paid_partial_ids.includes(person.id); then paid else unpaid">
           </div>
-          <a routerLink="/person/{{ person.id }}">
+          <a routerLink="/persons/{{ person.id }}">
             <span>{{ person.name }}</span>
           </a>
           <ng-template #paid>
@@ -156,13 +156,13 @@ export class BillDetailComponent implements OnInit {
   }
 
   getBill(): void {
-    let id = +this.route.snapshot.paramMap.get('id');
+    let id = this.route.snapshot.paramMap.get('id');
     this.billService.getBill(id).then(
       res => {
         if (res.status_code === 404) {
           this.router.navigate(['/404']);
         }
-        this.bill = res;
+        this.bill = new Bill(res.data.bill);
       });
   }
 

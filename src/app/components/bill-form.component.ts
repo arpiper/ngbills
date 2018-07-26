@@ -179,6 +179,7 @@ export class BillFormComponent implements OnInit {
         this.addedBill.emit(false);
         return false;
       }
+      console.log(b);
       this.billService.saveBill(b);
       this.addedBill.emit(b);
     }

@@ -31,15 +31,18 @@ export class BillService {
       });
       return Promise.resolve(bills);
     } else {
-      return this.http.get(`${this.url}/bills/`)
+      return this.http.get(`${this.url}/bills/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => res.json().map(v => new Bill(v)))
+        .then((res: Response) => {
+            return res.json();
+            //.map(v => new Bill(v));
+          })
         .catch((res) => this.handleError(res));
     }
   }
 
-  getBill(id: number): Promise<any> {
-    if (this.local) {
+  getBill(id: number | string): Promise<any> {
+    if (this.local && typeof(id) === 'number') {
       let bills = getLS('ngbills');
       // id's are 1 indexed.
       let idx = bills.findIndex((v) => v.id === id);
@@ -48,7 +51,7 @@ export class BillService {
       }
       return Promise.resolve(bills[idx]);
     } else {
-      return this.http.get(`${this.url}/bills/${id}/`)
+      return this.http.get(`${this.url}/bills/${id}/`, {headers: this.headers})
         .toPromise()
         .then((res: Response) => res.json())
         .catch((res) => this.handleError(res));
@@ -67,7 +70,7 @@ export class BillService {
       saveLS('ngbills', bills);
       return Promise.resolve(bill);
     } else {
-      return this.http.put(`${this.url}/bills/`, JSON.stringify(bill), {headers: this.headers})
+      return this.http.post(`${this.url}/bills/`, JSON.stringify(bill), {headers: this.headers})
         .toPromise()
         .then((res) => res.json())
         .catch((res) => this.handleError(res))

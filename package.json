@@ -13,24 +13,24 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^5.2.9",
-    "@angular/common": "^5.2.9",
-    "@angular/compiler": "^5.2.9",
-    "@angular/core": "^5.2.9",
-    "@angular/forms": "^5.2.9",
-    "@angular/http": "^5.2.9",
-    "@angular/platform-browser": "^5.2.9",
-    "@angular/platform-browser-dynamic": "^5.2.9",
-    "@angular/router": "^5.2.9",
-    "core-js": "^2.5.5",
-    "rxjs": "^5.5.10",
-    "zone.js": "^0.8.26"
+    "@angular/animations": "^5.x.x",
+    "@angular/common": "^5.x.x",
+    "@angular/compiler": "^5.x.x",
+    "@angular/core": "^5.x.x",
+    "@angular/forms": "^5.x.x",
+    "@angular/http": "^5.x.x",
+    "@angular/platform-browser": "^5.x.x",
+    "@angular/platform-browser-dynamic": "^5.x.x",
+    "@angular/router": "^5.x.x",
+    "core-js": "^2.x.x",
+    "rxjs": "^5.x.x",
+    "zone.js": "^0.8.x"
   },
   "devDependencies": {
-    "@angular/cli": "^1.7.4",
-    "@angular/compiler-cli": "^5.2.9",
-    "@angular/language-service": "^5.2.9",
-    "d3": "^4.13.0",
-    "typescript": "~2.4.2"
+    "@angular/cli": "^1.7.x",
+    "@angular/compiler-cli": "^5.x.x",
+    "@angular/language-service": "^5.x.x",
+    "d3": "^4.x.x",
+    "typescript": "^2.7.x"
   }
 }
