@@ -11,7 +11,6 @@ import { BillService } from '../services/bill.service';
   template: `
     <div class="bills-header">
       <h3>Bills</h3>
-      <bill-btn (click)="addBill()" [button_text]="'Add New Bill'"></bill-btn>
     </div>
     <div *ngIf="unpaid_bills?.length === 0; then no_bills else list_bills"></div>
     <ng-template #no_bills>
@@ -29,7 +28,6 @@ import { BillService } from '../services/bill.service';
       <bill-detail-inline-cmp *ngFor="let bill of paid_bills" [bill]="bill">
       </bill-detail-inline-cmp>
     </div>
-    <!--bill-form *ngIf="showForm" (addedBill)="updateBills($event)" (click)="closeForm($event)"></bill-form-->
   `,
   styles: [`
     :host {

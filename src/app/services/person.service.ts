@@ -117,6 +117,7 @@ export class PersonResolver implements Resolve<any> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Promise<any> {
+    console.log('resolver', route);
     return this.personService.getPersons();
   }
 }

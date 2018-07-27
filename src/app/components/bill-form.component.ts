@@ -55,9 +55,9 @@ import { DatePicker } from '../components/date-picker.component';
             <textarea class="form-control" formcontrolname="notes" rows="5"></textarea>
           </label>
         </div>
-        <div class="buttons">
-          <button (click)="cancel()">cancel</button>
-          <button >submit</button>
+        <div class="form__buttons">
+          <button class="button" (click)="cancel()">cancel</button>
+          <button class="button">submit</button>
         </div>
       </form>
     </div>
@@ -96,7 +96,7 @@ import { DatePicker } from '../components/date-picker.component';
       display: inline-block;
       width: 90%;
     }
-    .buttons {
+    .form__buttons {
       display: flex;
       justify-content: space-between;
       margin-top: 5px;
@@ -125,7 +125,7 @@ export class BillFormComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(
       (data) => {
-        console.log(data)
+        console.log(this.route.snapshot);
         this.utilities = data.utilities;
         this.persons = data.persons;
         this.createForm(); 
