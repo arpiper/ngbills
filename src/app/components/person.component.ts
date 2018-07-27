@@ -79,7 +79,8 @@ export class PersonComponent implements OnInit {
 
   getPersons(): void {
     this.personService.getPersons().then( (res) => {
-      this.persons = res;
+      console.log(res)
+      this.persons = res.data.persons;
     });
   }
 }
@@ -159,17 +160,17 @@ export class PersonDetailComponent implements OnInit {
         if (response.status_code === 404) {
           this.router.navigate(["/404"]);
         }
-        this.person = response;
+        this.person = response.data.person;
       });
   }
 
   getActiveBills(): void {
     this.billService.getBills().then(
       response => {
-        this.unpaid_bills = response.filter(
+        this.unpaid_bills = response.data.bills.filter(
           v => (v.split_by_ids.includes(this.id) && !v.paid_partial_ids.includes(this.id))
         )
-        this.paid_bills = response.filter(
+        this.paid_bills = response.data.bills.filter(
           v => (v.split_by_ids.includes(this.id) && v.paid_partial_ids.includes(this.id))
         )
       });

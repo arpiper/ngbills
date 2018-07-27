@@ -78,7 +78,7 @@ export class UtilityComponent implements OnInit {
 
   getUtilities(): void {
     this.utilityService.getUtilities().then( (res) => {
-      this.utilities = res;
+      this.utilities = res.data.utilities;
     });
   }
 }
@@ -168,17 +168,17 @@ export class UtilityDetailComponent implements OnInit {
         if (res.status_code === 404) {
           this.router.navigate(['/404']);
         }
-        this.utility = res;
+        this.utility = res.data.utility;
       });
   }
 
   getBills(): void {
     this.billService.getBills().then(
       response => {
-        this.unpaid_bills = response.filter(
+        this.unpaid_bills = response.data.bills.filter(
           v => (v.paid_to.id === this.id && !v.paid_full)
         );
-        this.paid_bills = response.filter(
+        this.paid_bills = response.data.bills.filter(
           v => (v.paid_to.id === this.id && v.paid_full)
         );
       }
