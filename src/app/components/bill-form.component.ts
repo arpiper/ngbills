@@ -125,6 +125,7 @@ export class BillFormComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(
       (data) => {
+        console.log(data)
         this.utilities = data.utilities;
         this.persons = data.persons;
         this.createForm(); 

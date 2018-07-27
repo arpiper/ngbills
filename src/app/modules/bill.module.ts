@@ -10,6 +10,7 @@ import { UtilityComponent,
          UtilityDetailComponent } from '../components/utility.component';
 import { PersonComponent,
          PersonDetailComponent } from '../components/person.component';
+
 import { BillService } from '../services/bill.service';
 import { UtilityService } from '../services/utility.service';
 import { PersonService } from '../services/person.service';
@@ -17,6 +18,7 @@ import { BillRoutingModule } from '../routes/bill-routing.module';
 
 import { DatePicker } from '../components/date-picker.component';
 import { ChartComponent } from '../components/chart.component';
+import { BillButton } from '../components/button.component';
 
 @NgModule({
   imports: [
@@ -35,6 +37,7 @@ import { ChartComponent } from '../components/chart.component';
     PersonDetailComponent,
     DatePicker,
     ChartComponent,
+    BillButton,
   ],
   providers: [
     BillService,
@@ -43,6 +46,8 @@ import { ChartComponent } from '../components/chart.component';
   ],
   exports: [
     BillDetailInlineComponent,
+    BillFormComponent,
+    BillButton,
   ]
 })
 
