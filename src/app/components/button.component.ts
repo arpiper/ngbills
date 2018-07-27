@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <div class="add-bill">
       <span>
-        <button >{{ button_text }}</button>
+        <button class="button">{{ button_text }}</button>
       </span>
     </div>
   `,

@@ -8,15 +8,20 @@ import { RouterLink } from '@angular/router';
   template: `
     <main class="container">
       <div class="header">
-        <h2>Roommate Bill Tracker</h2>
-        <bill-btn (click)="toggleBillForm()" [button_text]="'Add New Bill'"></bill-btn>
+        <h2 class="header__title">Roommate Bill Tracker</h2>
       </div>
-      <nav class="navigation">
-        <ul class="main">
-          <a *ngFor="let component of components" routerLink="/{{component}}" routerLinkActive="active">
-            <li>{{ component | uppercase }}</li>
-          </a>
+      <nav class="nav">
+        <ul class="menu">
+          <li class="menu__item" *ngFor="let component of components">
+            <a 
+              class="menu__item padten menu__link" 
+              routerLink="/{{component}}" 
+              routerLinkActive="active">
+              {{ component | uppercase }}
+            </a>
+          </li>
         </ul>
+        <bill-btn class="selfcenter" (click)="toggleBillForm()" [button_text]="'Add New Bill'"></bill-btn>
       </nav>
       <div class="content">
         <router-outlet></router-outlet>

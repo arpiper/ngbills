@@ -14,34 +14,16 @@ html, body {
   height: 100%;
 }
 
-/* Elements */
-* {
-  box-sizing: border-box;
-}
-
-h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 250%;
-}
-
-h2 {
-  color: #444;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: lighter;
-}
-
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.header h2,
-.header h4 {
-  display: inline-block;
+* {
+  box-sizing: border-box;
 }
 
-main.container {
+.container {
   display: grid;
   width: 100%;
   height: 100%;
@@ -57,18 +39,26 @@ main.container {
 .header {
   grid-area: header;
   border-bottom: 2px solid var(--color-gray-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* Navigation Styles */
-nav {
+.header__title {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+
+.nav {
   grid-area: nav;
   font: 1em arial, helvetica, sans-serif;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
 }
 
-nav ul {
-  color: #3C463C;
+.menu {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -79,23 +69,22 @@ nav ul {
   margin: 0;
 }
 
-nav ul a,
-nav ul li {
+.menu__item {
+  color: #3C463C;
   text-decoration: none;
-  /*height: 100%;*/
   display: flex;
   flex: 1;
   color: var(--color-gray-dark);
   cursor: pointer;
-  padding: 5px;
   width: 100%;
 }
 
-nav ul a:hover {
+.menu__link:hover {
   background-color: var(--color-main);
   color: var(--color-gray-light);
 }
 
+/*
 nav .secondary {
   background-color: #3C463C;
 }
@@ -108,6 +97,7 @@ nav .secondary li {
 nav .secondary li:hover {
   background-color: #242B24;
 }
+*/
 
 .content {
   grid-area: main;
@@ -196,7 +186,7 @@ input.alert + input:focus {
 }
 
 /* Buttons */
-button {
+.button {
   border-style: none;
   width: 110px;
   height: 35px;
@@ -208,27 +198,27 @@ button {
   margin: 5px;
 }
 
-button.small {
+.button.small {
   height: 35px;
   width: auto;
 }
 
-button.alert {
+.button.alert {
   background-color: var(--color-red);
   border-color: var(--color-red);
 }
 
-button:hover {
+.button:hover {
   cursor: pointer;
   background-color: var(--color-gray-light);
   color: var(--color-main);
 }
 
-button.alert:hover {
+.button.alert:hover {
   color: var(--color-red);
 }
 
-button:active {
+.button:active {
   /*box-shadow: none;*/
   border: none;
   outline: none;
@@ -237,11 +227,11 @@ button:active {
   color: var(--color-gray-light);
 }
 
-button.alert:active {
+.button.alert:active {
   background-color: var(--color-red);
 }
 
-button:focus {
+.button:focus {
   outline: none;
 }
 
@@ -335,4 +325,15 @@ label {
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+/*
+ * minor style/position additions
+ */
+.padten {
+  padding: 10px;
+}
+
+.selfcenter {
+  align-self: center;
 }
