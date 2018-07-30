@@ -19,7 +19,9 @@ import { UtilityService } from '../services/utility.service';
         </span>
         <input #utilityName type="text" placeholder="Utility"
           (keyup.enter)="addUtility(utilityName.value); utilityName.value=''">
-        <button (click)="addUtility(utilityName.value); utilityName.value=''" >Add Utility</button>
+        <button class="button" (click)="addUtility(utilityName.value); utilityName.value=''" >
+          Add Utility
+        </button>
       </div>
     </div>
     <div class="utilities">

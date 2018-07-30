@@ -20,7 +20,9 @@ import { PersonService } from '../services/person.service';
         </span>
         <input #personName type="text" placeholder="Person's name" 
           (keyup.enter)="addPerson(personName.value); personName.value=''">
-        <button (click)="addPerson(personName.value); personName.value=''" >Add Person</button>
+        <button class="button" (click)="addPerson(personName.value); personName.value=''" >
+          Add Person
+        </button>
       </div>
     </div>
     <div class="persons">
