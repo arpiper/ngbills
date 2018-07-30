@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { BillComponent } from '../components/bill.component';
 import { BillDetailComponent } from '../components/bill-detail.component';
+import { BillFormComponent } from '../components/bill-form.component';
 import { PersonComponent,
          PersonDetailComponent } from '../components/person.component';
 import { UtilityComponent,
@@ -14,10 +15,6 @@ const billRoutes: Routes = [
   {
     path: 'bills',
     component: BillComponent,
-    resolve: {
-      utilities: UtilityResolver,
-      persons: PersonResolver,
-    },
   },
   {
     path: 'bills/:id',
@@ -48,6 +45,14 @@ const billRoutes: Routes = [
   {
     path: 'utilities/:id',
     component: UtilityDetailComponent,
+  },
+  {
+    path: 'billform',
+    component: BillFormComponent,
+    resolve: {
+      utilities: UtilityResolver,
+      persons: PersonResolver,
+    },
   },
 ];
 

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Bill } from '../models/bill';
 import { Utility } from '../models/utility';
@@ -9,7 +8,7 @@ import { BillService } from '../services/bill.service';
   moduleId: module.id,
   selector: 'bill-cmp',
   template: `
-    <div class="bills-header">
+    <div class="content__header">
       <h3>Bills</h3>
     </div>
     <div *ngIf="unpaid_bills?.length === 0; then no_bills else list_bills"></div>
@@ -35,12 +34,6 @@ import { BillService } from '../services/bill.service';
       flex: 1 0 100%;
       flex-direction: column;
     }
-    .bills-header {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
-    }
   `],
 })
 
@@ -51,7 +44,6 @@ export class BillComponent implements OnInit {
 
   constructor(
     private billService: BillService,
-    private router: Router
   ) {}
   
   ngOnInit(): void {
@@ -63,7 +55,6 @@ export class BillComponent implements OnInit {
   getBills(): void {
     this.billService.getBills().then(
       (res) => {
-        //this.bills = bills;
         res.data.bills.forEach((v,i) => {
           if (v.paid_full) {
             this.paid_bills.push(v);

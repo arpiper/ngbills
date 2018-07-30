@@ -7,12 +7,15 @@ import { HomeComponent } from './components/home.component';
 import { NotFoundComponent } from './components/notfound.component';
 import { DatePicker } from './components/date-picker.component';
 import { ChartComponent } from './components/chart.component';
+import { BillFormComponent } from './components/bill-form.component';
+
+import { DomService } from './services/dom.service';
+import { ModalService } from './services/modal.service';
 
 import { BillModule } from './modules/bill.module';
 import { AppRoutingModule } from './routes/app-routing.module';
 
 import { AppComponent } from './app.component';
-
 
 @NgModule({
   declarations: [
@@ -27,7 +30,12 @@ import { AppComponent } from './app.component';
     HttpModule,
     BillModule,
   ],
+  entryComponents: [
+    BillFormComponent,
+  ],
   providers: [
+    DomService,
+    ModalService,
   ],
   bootstrap: [AppComponent]
 })

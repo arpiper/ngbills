@@ -18,9 +18,9 @@ import { DatePicker } from '../components/date-picker.component';
   template:`
     <div class="form-container" [ngStyle]="formPosition" #container>
       <h3>Add New Bill</h3>
-      <form [formGroup]="billForm" (ngSubmit)="onSubmit()">
-        <div class="form-group due-date">
-          <label>Due Date:
+      <form [formGroup]="billForm" class="form" (ngSubmit)="onSubmit()">
+        <div class="form-group due-date form__group">
+          <label class="form__label">Due Date:
             <date-picker 
               [extraClass]="'test'" 
               [name]="'due_date'"
@@ -28,20 +28,20 @@ import { DatePicker } from '../components/date-picker.component';
             </date-picker>
           </label>
         </div>
-        <div class="form-group amount">
-          <label>Amount:
+        <div class="form-group amount form__group">
+          <label class="form__label">Amount:
             <input type="number" class="form-control" formControlName="amount">
           </label>
         </div>
-        <div class="form-group paid-to">
+        <div class="form-group paid-to form__group">
           <label>Utility:
             <select class="form-control" formControlName="paid_to">
               <option *ngFor="let utility of utilities" [value]="utility.id">{{ utility.name | uppercase }}</option>
             </select>
           </label>
         </div>
-        <div class="form-group split-by">
-          <label>Roommates:
+        <div class="form-group split-by form__group">
+          <label class="form__label">Roommates:
             <div class="split-by-checkboxes" *ngFor="let person of persons; let i = index" formArrayName="split_by">
               <label>
                 <input type="checkbox" [formControlName]="i"  [id]="person.name" [value]="person.id">
@@ -50,8 +50,8 @@ import { DatePicker } from '../components/date-picker.component';
             </div>
           </label>
         </div>
-        <div class="form-group notes">
-          <label>notes:
+        <div class="form-group notes form__group">
+          <label class="form__label">notes:
             <textarea class="form-control" formcontrolname="notes" rows="5"></textarea>
           </label>
         </div>
@@ -63,21 +63,6 @@ import { DatePicker } from '../components/date-picker.component';
     </div>
   `,
   styles: [`
-    :host {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background-color: rgba(0,0,0,0.5);
-    }
-    .form-container {
-      width: auto;
-      height: auto;
-      position: absolute;
-      background-color: var(--color-gray-light);
-      padding: 25px;
-    }
     .form-container h3 {
       margin-top: 0;
       text-decoration: underline;
@@ -123,14 +108,18 @@ export class BillFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('oninit', this.persons);
+    /*
     this.route.data.subscribe(
       (data) => {
-        console.log(this.route.snapshot);
-        this.utilities = data.utilities;
-        this.persons = data.persons;
+        console.log('route subscription', data);
+        this.utilities = data.utilities.data.utilities;
+        this.persons = data.persons.data.persons;
         this.createForm(); 
       }
     );
+    */
+    this.createForm(); 
     this.setPosition();
   }
 
