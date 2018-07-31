@@ -33,10 +33,7 @@ export class BillService {
     } else {
       return this.http.get(`${this.url}/bills/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => {
-            return res.json();
-            //.map(v => new Bill(v));
-          })
+        .then((res: Response) => res.json())
         .catch((res) => this.handleError(res));
     }
   }

@@ -16,7 +16,7 @@ export class DomService {
     private injector: Injector
   ) {}
 
-  public appendComponentTo(parentId: string, child: any, config?: childConfig): void {
+  public appendComponentTo(parentId: string, child: any, config?: childConfig): any {
     // create a component reference from the component
     const childCompRef = this.componentFactoryResolver
       .resolveComponentFactory(child)
@@ -36,6 +36,7 @@ export class DomService {
 
     // append DOM element to body
     document.getElementById(parentId).appendChild(childDomElem);
+    return this.childCompRef;
   }
 
   public removeComponent(): void {

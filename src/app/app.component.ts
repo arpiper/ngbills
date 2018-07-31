@@ -34,9 +34,8 @@ import { BillFormComponent } from './components/bill-form.component';
         <p>&copy; Andrew Piper</p>
       </div>
     </main>
-    <!--bill-form *ngIf="show_form" (addedBill)="toggleBillForm()" (click)="closeForm($event)"></bill-form-->
     <div class="hidden modal__container" id="modal-container"></div>
-    <div class="hidden modal__overlay" id="modal-overlay"></div>
+    <div class="hidden modal__overlay" id="modal-overlay" (click)="closeForm()"></div>
   `,
 })
 export class AppComponent {
@@ -62,17 +61,14 @@ export class AppComponent {
       persons: persons.data.persons,
       utilities: utilities.data.utilities,
     };
-    console.log(inputs);
-    this.modalService.init(BillFormComponent, inputs, {});
+    let outputs = {
+      billAdded: (a) => console.log(a),
+    };
+    this.modalService.init(BillFormComponent, inputs, outputs)
+      .instance.addedBill.subscribe(v => this.closeForm());
   }
 
-  toggleBillForm(): void {
-    this.show_form = !this.show_form;
-  }
-
-  closeForm(evt): void {
-    if (evt.target.nodeName === 'BILL-FORM') {
-      this.show_form = false;
-    }
+  closeForm(): void {
+    this.modalService.destroy();
   }
 }

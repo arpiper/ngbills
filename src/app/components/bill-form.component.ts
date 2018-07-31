@@ -7,8 +7,6 @@ import { Utility } from '../models/utility';
 import { Person } from '../models/person';
 
 import { BillService } from '../services/bill.service';
-import { UtilityService } from '../services/utility.service';
-import { PersonService } from '../services/person.service';
 
 import { DatePicker } from '../components/date-picker.component';
 
@@ -70,7 +68,7 @@ import { DatePicker } from '../components/date-picker.component';
     .form-container form {
     }
     .form-group {
-      margin: 5px;
+      padding: 5px;
     }
     .form-group,
     .form-control,
@@ -101,26 +99,11 @@ export class BillFormComponent implements OnInit {
 
   constructor(
     private billService: BillService,
-    private utilityService: UtilityService,
-    private personService: PersonService,
-    private route: ActivatedRoute,
     private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
-    console.log('oninit', this.persons);
-    /*
-    this.route.data.subscribe(
-      (data) => {
-        console.log('route subscription', data);
-        this.utilities = data.utilities.data.utilities;
-        this.persons = data.persons.data.persons;
-        this.createForm(); 
-      }
-    );
-    */
     this.createForm(); 
-    this.setPosition();
   }
 
   createForm(): void {
@@ -136,14 +119,15 @@ export class BillFormComponent implements OnInit {
     });
   }
 
+  // update the bill form with the selected date. mm/dd/yyyy
   datePicked(d): void {
-    console.log(d);
+    this.billForm.patchValue({due_date: d.toLocaleDateString()});
   }
 
   prepareSaveBill(): Bill {
     let bf = this.billForm.value;
-    let u_id = this.utilities.findIndex((v) => v.id === +bf.paid_to);
     let p = [];
+    // the split_by value returns array of booleans. Need the actual person ids.
     bf.split_by.forEach((v, i) => {
       if (v) {
         p.push(this.persons[i]);
@@ -153,11 +137,11 @@ export class BillFormComponent implements OnInit {
       return;
     }
     let b = new Bill({
-      due_date: this.billForm.value.due_date,
-      amount: +this.billForm.value.amount,
-      paid_to: this.utilities[u_id],
+      due_date: bf.due_date,
+      amount: +bf.amount,
+      paid_to: bf.paid_to,
       split_by: p,
-      notes: this.billForm.value.notes,
+      notes: bf.notes,
     });
     return b;
   }
@@ -169,7 +153,6 @@ export class BillFormComponent implements OnInit {
         this.addedBill.emit(false);
         return false;
       }
-      console.log(b);
       this.billService.saveBill(b);
       this.addedBill.emit(b);
     }
@@ -181,16 +164,5 @@ export class BillFormComponent implements OnInit {
 
   onSubmit(): void {
     this.saveBill();
-  }
-
-  setPosition(): void {
-    let h = this.container.nativeElement.offsetHeight;
-    let w = this.container.nativeElement.offsetWidth;
-    h = (this.container.nativeElement.parentElement.offsetHeight / 2) - (h / 2);
-    w = (this.container.nativeElement.parentElement.offsetWidth / 2) - (w / 2);
-    this.formPosition = {
-      top: `${h}px`,
-      left: `${w}px`,
-    };
   }
 }
