@@ -64,7 +64,7 @@ export class UtilityService {
       saveLS('ngutilities', utils);
       return Promise.resolve(utility);
     } else {
-      return this.http.put(`${this.url}/utilities/`, JSON.stringify(utility), {headers: this.headers})
+      return this.http.post(`${this.url}/utilities/`, JSON.stringify(utility), {headers: this.headers})
         .toPromise()
         .then((res) => res.json())
         .catch((res) => this.handleError(res));

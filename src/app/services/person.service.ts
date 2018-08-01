@@ -65,7 +65,7 @@ export class PersonService {
       saveLS('ngpersons', persons);
       return Promise.resolve(persons);
     } else {
-      return this.http.put(`${this.url}/persons/`, JSON.stringify(person), {headers: this.headers})
+      return this.http.post(`${this.url}/persons/`, JSON.stringify(person), {headers: this.headers})
         .toPromise()
         .then(res => res.json())
         .catch(res => this.handleError(res))
