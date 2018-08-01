@@ -95,7 +95,7 @@ export class BillDetailInlineComponent implements OnInit {
           </a>
           <ng-template #paid>
             <span class="">
-              <button class="unmark-person-paid" disabled>
+              <button class="unmark-person-paid button" disabled>
                 <span class="checkmark"></span>
               </button>
             </span>
@@ -103,7 +103,7 @@ export class BillDetailInlineComponent implements OnInit {
           </ng-template>
           <ng-template #unpaid>
             <span class="person-unpaid">
-              <button class="mark-person-paid toggle alert" (click)="togglePersonPaid(person)">
+              <button class="mark-person-paid toggle alert button" (click)="togglePersonPaid(person)">
                 Mark As Paid
               </button>
             </span>
@@ -117,7 +117,7 @@ export class BillDetailInlineComponent implements OnInit {
       </div>
       <div class="delete right">
         <span class="">
-          <button class="alert" (click)="deleteBill()">Delete</button>
+          <button class="button alert" (click)="deleteBill()">Delete</button>
         </span>
       </div>
     </div>
@@ -180,8 +180,9 @@ export class BillDetailComponent implements OnInit {
       this.bill.paid_full = true;
       this.utilityService.updatePayments(this.bill.amount, this.bill.paid_to.id);
     }
+    console.log(this.bill);
     this.billService.updateBill(this.bill);
-    this.personService.updatePaymentsMade(this.bill.split_amount, person.id);
+    //this.personService.updatePaymentsMade(this.bill.split_amount, person.id);
   }
 
   deleteBill(): void {

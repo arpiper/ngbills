@@ -72,7 +72,7 @@ export class PersonService {
     }
   }
 
-  updatePaymentsMade(val: number, id: number): Promise<any> {
+  updatePaymentsMade(val: number, id: number | string): Promise<any> {
     if (this.local) {
       let persons = getLS('ngpersons');
       let idx = persons.findIndex((v) => v.id === id);
@@ -80,7 +80,10 @@ export class PersonService {
       saveLS('ngpersons', persons);
       return Promise.resolve(persons);
     } else {
-      return this.http.put(`${this.url}/persons/${id}`, JSON.stringify(val), {headers: this.headers})
+      let data = JSON.stringify({
+        payments_made: val,
+      });
+      return this.http.put(`${this.url}/persons/${id}`, data, {headers: this.headers})
         .toPromise()
         .then(res => res.json())
         .catch(res => this.handleError(res));

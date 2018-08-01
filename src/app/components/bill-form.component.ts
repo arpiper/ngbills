@@ -28,7 +28,7 @@ import { DatePicker } from '../components/date-picker.component';
         </div>
         <div class="form-group amount form__group">
           <label class="form__label">Amount:
-            <input type="number" class="form-control" formControlName="amount">
+            <input type="number" class="form-control" formControlName="amount" onClick="this.select()">
           </label>
         </div>
         <div class="form-group paid-to form__group">
