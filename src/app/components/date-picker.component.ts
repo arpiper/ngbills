@@ -69,7 +69,7 @@ import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter }
     }
     .date-picker-day {
       position: absolute;
-      width: 14.28%;
+      width: 14.29%;
     }
     .date-picker-day.extra {
       color: #888;
@@ -115,6 +115,7 @@ export class DatePicker implements OnInit {
       name: this.names[this.today.getUTCMonth()],
       index: this.today.getUTCMonth(), 
     };
+    // set position relative the input element.
     this.position = {
       top: `${this.datePickerInput.nativeElement.offsetHeight}px`,
       width: `${this.datePickerInput.nativeElement.offsetWidth}px`
@@ -129,6 +130,7 @@ export class DatePicker implements OnInit {
     this.show = false;
   }
 
+  // set position for individual day block.
   setDayStyles(d): object {
     let styles = {
       left: `${(100 / 7) * d.date.getDay()}%`,
@@ -163,20 +165,25 @@ export class DatePicker implements OnInit {
     };
   }
 
+  // create array of days for the month of the given date value.
+  // includes the trailing and leading days of surrounding months
+  // if applicable.
   getMonthArray(d: Date): Date[] {
+    // get the first and last days of the month
     let l = new Date(d.getUTCFullYear(), d.getUTCMonth() + 1, 0);
     let s = new Date(d.getUTCFullYear(), d.getUTCMonth(), 1);
     let lastRow = 1;
     let a = [];
-    if (s.getDay() !== 0) {
-      for (let i = 1; i <= s.getDay(); i++) {
-        a.push({
-          date: new Date(s.getUTCFullYear(), s.getUTCMonth(), i - s.getDay()), 
-          rowValue: lastRow,
-          classes: 'extra',
-        });
-      }
+    // leading days of last month
+    let end = s.getDay() > 0 ? s.getDay() : 7;
+    for (let i = 1; i <= end; i++) {
+      a.push({
+        date: new Date(s.getUTCFullYear(), s.getUTCMonth(), i - end), 
+        rowValue: lastRow,
+        classes: 'extra',
+      });
     }
+    // create array of the appropriate length
     let m = Array(l.getDate())
       .fill(1,0,l.getDate())
       .map(
@@ -189,6 +196,7 @@ export class DatePicker implements OnInit {
           return {date: day, rowValue: lastRow, classes: ''};
         }
       );
+    // trailing days of next month
     let b = [];
     if (l.getDay() !== 6) {
       for (let i = 1; i < 7 - l.getDay(); i++) {
