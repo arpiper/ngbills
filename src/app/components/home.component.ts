@@ -7,11 +7,19 @@ import { BillDetailComponent } from './bill-detail.component';
   moduleId: module.id,
   selector: 'home-cmp',
   template: `
-    <div class="active-bills">
-      <div class="bill" *ngFor="let bill of bills">
-        <bill-detail-inline-cmp [bill]="bill"></bill-detail-inline-cmp>
+    <div *ngIf="bills?.length > 0; then list_bills else no_bills"></div>
+    <ng-template #list_bills>
+      <div class="active-bills">
+        <div class="bill" *ngFor="let bill of bills">
+          <bill-detail-inline-cmp [bill]="bill"></bill-detail-inline-cmp>
+        </div>
       </div>
-    </div>
+    </ng-template>
+    <ng-template #no_bills>
+      <div class="">
+        <p>No Current Bills</p>
+      </div>
+    </ng-template>
   `,
   styles: [`
     :host {

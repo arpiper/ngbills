@@ -79,7 +79,7 @@ export class BillDetailInlineComponent implements OnInit {
       </div>
       <div class="amount">
         <span class="label">Total Amount Due: </span>
-        <span class="value">{{ bill?.amount | currency:'USD' }}</span>
+        <span class="value" [ngClass]="{'paid': bill?.paid_full }">{{ bill?.amount | currency:'USD' }}</span>
       </div>
       <div class="due-date">
         <span class="label">Bill Due: </span>
@@ -130,11 +130,14 @@ export class BillDetailInlineComponent implements OnInit {
       font-weight: bold;
     }
     .amount .label,
-    .amount .value {
+    .amount .value,
+    .amount__label, 
+    .amount__value {
       font-size: 14pt;
       font-weight: bold;
     }
-    .amount .value {
+    .amount .value,
+    .amount__value {
       color: var(--color-red);
     }
   `]
