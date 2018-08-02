@@ -29,7 +29,8 @@ export class ModalService {
     let m = document.getElementById(this.modalElementId);
     let o = document.getElementById(this.overlayElementId);
     return {
-      top: `${(o.offsetHeight / 2) - (m.offsetHeight / 2)}px`,
+      //top: `${(o.offsetHeight / 2) - (m.offsetHeight / 2)}px`,
+      top: '100px',
       left: `${(o.offsetWidth / 2) - (m.offsetWidth / 2)}px`,
     };
   }
