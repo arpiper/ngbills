@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Headers, Http, Response } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 
@@ -11,10 +11,12 @@ import { getLS, saveLS } from './local.service';
 export class PersonService {
   private url;
   private local = true;
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {
     if (environment.api.url !== '') {
       this.local = false;
@@ -31,8 +33,8 @@ export class PersonService {
     } else {
       return this.http.get(`${this.url}/persons/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
@@ -48,8 +50,8 @@ export class PersonService {
     } else {
       return this.http.get(`${this.url}/persons/${id}/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
@@ -67,8 +69,8 @@ export class PersonService {
     } else {
       return this.http.post(`${this.url}/persons/`, JSON.stringify(person), {headers: this.headers})
         .toPromise()
-        .then(res => res.json())
-        .catch(res => this.handleError(res))
+        .then(response => response)
+        .catch(response => this.handleError(response))
     }
   }
 
@@ -85,8 +87,8 @@ export class PersonService {
       });
       return this.http.put(`${this.url}/persons/${id}`, data, {headers: this.headers})
         .toPromise()
-        .then(res => res.json())
-        .catch(res => this.handleError(res));
+        .then(response => response)
+        .catch(response => this.handleError(response));
     }
   }
   
@@ -100,8 +102,8 @@ export class PersonService {
     } else {
       return this.http.delete(`${this.url}/persons/${id}`)
         .toPromise()
-        .then((res) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 

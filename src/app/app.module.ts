@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HomeComponent } from './components/home.component';
@@ -17,6 +17,8 @@ import { AppRoutingModule } from './routes/app-routing.module';
 
 import { AppComponent } from './app.component';
 
+import { HttpXsrfInterceptor, HttpCsrfTokenExtractor } from './interceptors/httpxsrf.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,11 +26,15 @@ import { AppComponent } from './app.component';
     HomeComponent,
   ],
   imports: [
+    BillModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpModule,
-    BillModule,
+    HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'CSRF-Token',
+      headerName: 'X-CSRF-Token',
+    }),
   ],
   entryComponents: [
     BillFormComponent,
@@ -36,6 +42,8 @@ import { AppComponent } from './app.component';
   providers: [
     DomService,
     ModalService,
+    HttpCsrfTokenExtractor,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpXsrfInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 
@@ -13,10 +13,12 @@ import { getLS, saveLS } from './local.service';
 export class BillService {
   private url;
   private local = true;
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {
     if (environment.api.url !== '') {
       this.local = false;
@@ -33,8 +35,8 @@ export class BillService {
     } else {
       return this.http.get(`${this.url}/bills/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
@@ -50,8 +52,8 @@ export class BillService {
     } else {
       return this.http.get(`${this.url}/bills/${id}/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
@@ -67,10 +69,10 @@ export class BillService {
       saveLS('ngbills', bills);
       return Promise.resolve(bill);
     } else {
-      return this.http.post(`${this.url}/bills/`, JSON.stringify(bill), {headers: this.headers})
+      return this.http.post(`${this.url}/bills/`, JSON.stringify(bill))//, {headers: this.headers})
         .toPromise()
-        .then((res) => res.json())
-        .catch((res) => this.handleError(res))
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
@@ -84,8 +86,8 @@ export class BillService {
     } else {
       return this.http.put(`${this.url}/bills/${bill.id}`, JSON.stringify(bill), {headers: this.headers})
         .toPromise()
-        .then((res) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
@@ -99,8 +101,8 @@ export class BillService {
     } else {
       return this.http.delete(`${this.url}/bills/${id}`)
         .toPromise()
-        .then((res) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 

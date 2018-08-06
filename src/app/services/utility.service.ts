@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Headers, Http, Response } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 
@@ -11,10 +11,12 @@ import { getLS, saveLS } from './local.service';
 export class UtilityService {
   private url;
   private local = true;
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {
     if (environment.api.url !== '') {
       this.local = false;
@@ -31,8 +33,8 @@ export class UtilityService {
     } else {
       return this.http.get(`${this.url}/utilities/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
@@ -50,8 +52,8 @@ export class UtilityService {
     } else {
       return this.http.get(`${this.url}/utilities/${id}/`, {headers: this.headers})
         .toPromise()
-        .then((res: Response) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
@@ -66,8 +68,8 @@ export class UtilityService {
     } else {
       return this.http.post(`${this.url}/utilities/`, JSON.stringify(utility), {headers: this.headers})
         .toPromise()
-        .then((res) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
@@ -81,7 +83,7 @@ export class UtilityService {
     } else {
       return this.http.put(`${this.url}/utilities/${id}`, JSON.stringify(val), {headers: this.headers})
         .toPromise()
-        .then((response) => response.json())
+        .then((response) => response)
         .catch((response) => this.handleError(response));
     }
   }
@@ -95,8 +97,8 @@ export class UtilityService {
     } else {
       return this.http.delete(`${this.url}/utilities/${id}`)
         .toPromise()
-        .then((res) => res.json())
-        .catch((res) => this.handleError(res));
+        .then((response) => response)
+        .catch((response) => this.handleError(response));
     }
   }
 
