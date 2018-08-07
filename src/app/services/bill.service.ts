@@ -13,9 +13,12 @@ import { getLS, saveLS } from './local.service';
 export class BillService {
   private url;
   private local = true;
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json'
-  });
+  private options = {
+    withCredentials: true,
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   constructor(
     private http: HttpClient
@@ -33,7 +36,7 @@ export class BillService {
       });
       return Promise.resolve(bills);
     } else {
-      return this.http.get(`${this.url}/bills/`, {headers: this.headers})
+      return this.http.get(`${this.url}/bills/`, this.options)
         .toPromise()
         .then((response) => response)
         .catch((response) => this.handleError(response));
@@ -50,7 +53,7 @@ export class BillService {
       }
       return Promise.resolve(bills[idx]);
     } else {
-      return this.http.get(`${this.url}/bills/${id}/`, {headers: this.headers})
+      return this.http.get(`${this.url}/bills/${id}/`, this.options)
         .toPromise()
         .then((response) => response)
         .catch((response) => this.handleError(response));
@@ -69,7 +72,7 @@ export class BillService {
       saveLS('ngbills', bills);
       return Promise.resolve(bill);
     } else {
-      return this.http.post(`${this.url}/bills/`, JSON.stringify(bill))//, {headers: this.headers})
+      return this.http.post(`${this.url}/bills/`, JSON.stringify(bill), this.options)
         .toPromise()
         .then((response) => response)
         .catch((response) => this.handleError(response));
@@ -84,7 +87,7 @@ export class BillService {
       saveLS('ngbills', bills);
       return Promise.resolve(bills);
     } else {
-      return this.http.put(`${this.url}/bills/${bill.id}`, JSON.stringify(bill), {headers: this.headers})
+      return this.http.put(`${this.url}/bills/${bill.id}`, JSON.stringify(bill), this.options)
         .toPromise()
         .then((response) => response)
         .catch((response) => this.handleError(response));
