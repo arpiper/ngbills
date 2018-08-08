@@ -55,7 +55,6 @@ export class HttpXsrfInterceptor implements HttpInterceptor {
       req = req.clone({ headers: req.headers.set(headerName, token)});
     }
 
-    console.log(req);
     return next.handle(req);
   }
 
