@@ -2,15 +2,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './components/home.component';
 import { NotFoundComponent } from './components/notfound.component';
 import { DatePicker } from './components/date-picker.component';
 import { ChartComponent } from './components/chart.component';
 import { BillFormComponent } from './components/bill-form.component';
+import { LoginComponent } from './components/login.component';
 
 import { DomService } from './services/dom.service';
 import { ModalService } from './services/modal.service';
+import { LoginService } from './services/login.service';
 
 import { BillModule } from './modules/bill.module';
 import { AppRoutingModule } from './routes/app-routing.module';
@@ -24,11 +27,13 @@ import { HttpXsrfInterceptor, HttpCsrfTokenExtractor } from './interceptors/http
     AppComponent,
     NotFoundComponent,
     HomeComponent,
+    LoginComponent,
   ],
   imports: [
     BillModule,
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions({
@@ -42,6 +47,7 @@ import { HttpXsrfInterceptor, HttpCsrfTokenExtractor } from './interceptors/http
   providers: [
     DomService,
     ModalService,
+    LoginService,
     HttpCsrfTokenExtractor,
     {provide: HTTP_INTERCEPTORS, useClass: HttpXsrfInterceptor, multi: true},
   ],

@@ -13,6 +13,7 @@ import { BillFormComponent } from './components/bill-form.component';
     <main class="container">
       <div class="header">
         <h2 class="header__title">Roommate Bill Tracker</h2>
+        <login-cmp></login-cmp>
       </div>
       <nav class="nav">
         <ul class="menu">
