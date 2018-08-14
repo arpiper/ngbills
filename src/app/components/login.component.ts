@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import { LoginService } from '../services/login.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   moduleId: module.id,
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
   @Output() loginSuccessful: EventEmitter<any> = new EventEmitter();
   
   constructor(
-    private loginService: LoginService,
+    private authService: AuthService,
     private fb: FormBuilder
   ) {}
 
@@ -49,6 +49,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.loginService.login(this.loginForm.value.username, this.loginForm.value.password);
+    this.authService.login(this.loginForm.value.username, this.loginForm.value.password);
   }
 }

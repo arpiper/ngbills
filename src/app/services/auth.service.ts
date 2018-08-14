@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class LoginService {
+export class AuthService {
   private url;
   private options = {
     withCredentials: true,

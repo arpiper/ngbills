@@ -13,7 +13,7 @@ import { LoginComponent } from './components/login.component';
 
 import { DomService } from './services/dom.service';
 import { ModalService } from './services/modal.service';
-import { LoginService } from './services/login.service';
+import { AuthService } from './services/auth.service';
 
 import { BillModule } from './modules/bill.module';
 import { AppRoutingModule } from './routes/app-routing.module';
@@ -47,7 +47,7 @@ import { HttpXsrfInterceptor, HttpCsrfTokenExtractor } from './interceptors/http
   providers: [
     DomService,
     ModalService,
-    LoginService,
+    AuthService,
     HttpCsrfTokenExtractor,
     {provide: HTTP_INTERCEPTORS, useClass: HttpXsrfInterceptor, multi: true},
   ],
