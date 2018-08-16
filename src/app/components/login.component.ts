@@ -9,15 +9,19 @@ import { AuthService } from '../services/auth.service';
   template: `
     <div>
       <form class="form login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <label class="form__username">
-          Username: 
-          <input type="text" name="username" formControlName="username">
-        </label>
-        <label class="form__password">
-          Password:
-          <input type="password" name="password" formControlName="password">
-        </label>
-        <button class="form__submit button button_size_small" type="submit">Login</button>
+        <div class="block_inner_left">
+          <label class="form__username">
+            Username: 
+            <input type="text" name="username" formControlName="username">
+          </label>
+          <label class="form__password">
+            Password:
+            <input type="password" name="password" formControlName="password">
+          </label>
+        </div>
+        <div class="block_inner_right">
+          <button class="form__submit button button_size_small" type="submit">Login</button>
+        </div>
       </form>
     </div>
   `,

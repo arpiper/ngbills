@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../components/home.component';
 import { NotFoundComponent } from '../components/notfound.component';
+import { AuthGuard } from '../services/auth.service';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'home',
@@ -22,6 +24,6 @@ const routes: Routes = [
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
   exports: [ RouterModule ],
-  providers: [],
+  providers: [AuthGuard],
 })
 export class AppRoutingModule {}
