@@ -21,6 +21,7 @@ import { AppRoutingModule } from './routes/app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HttpXsrfInterceptor, HttpCsrfTokenExtractor } from './interceptors/httpxsrf.interceptor';
+import { HttpAuthInterceptor } from './interceptors/httpauth.interceptor';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { HttpXsrfInterceptor, HttpCsrfTokenExtractor } from './interceptors/http
     ModalService,
     AuthService,
     HttpCsrfTokenExtractor,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: HttpXsrfInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]

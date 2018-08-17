@@ -14,7 +14,6 @@ export class BillService {
   private url;
   private local = true;
   private options = {
-    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })

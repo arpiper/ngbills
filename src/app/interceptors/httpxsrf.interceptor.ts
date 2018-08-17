@@ -3,8 +3,7 @@ import {
   HttpInterceptor, 
   HttpRequest, 
   HttpHandler, 
-  HttpEvent,
-  HttpXsrfTokenExtractor } from '@angular/common/http';
+  HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -54,6 +53,7 @@ export class HttpXsrfInterceptor implements HttpInterceptor {
     if (token !== null && !req.headers.has(headerName)) {
       req = req.clone({ headers: req.headers.set(headerName, token)});
     }
+    //console.log("httpXsrf", req);
 
     return next.handle(req);
   }
