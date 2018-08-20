@@ -19,7 +19,7 @@ export class AuthService {
       'Content-Type': 'application/json'
     })
   };
-  redirect;
+  public redirect;
 
   constructor(
     private http: HttpClient
@@ -34,28 +34,25 @@ export class AuthService {
     };
     return this.http.post(`${this.url}/login`, cred, this.options)
       .toPromise()
-      .then(res => res)
-      .catch(res => this.handleError(res));
+      .then(response => response)
+      .catch(response => this.handleError(response));
   }
 
   logout(): Promise<any> {
     return this.http.get(`${this.url}/logout`, this.options)
       .toPromise()
-      .then(res => res);
+      .then(response => response);
   }
 
   isAuthenticated() {
-    this.http.get(`${this.url}/auth`, this.options)
+    return this.http.get(`${this.url}/auth`, this.options)
       .toPromise()
-      .then(res => {
-        console.log('isAuth', res);
-        return res;
-      });
-    return true;
+      .then(response => response)
+      .catch(response => this.handleError(response));
   }
   
   handleError(error: any): Promise<any> {
-    console.log(error);
+    console.log("ERROR", error);
     return Promise.reject(error.message || error);
   }
 }
@@ -76,7 +73,12 @@ export class AuthGuard implements CanActivate {
   }
 
   checkAuthentication(url: string): boolean {
-    if (this.authService.isAuthenticated()) {
+    let isAuth = false;
+    this.authService.isAuthenticated().then(response => {
+      console.log('chekc auth', response);
+      isAuth = true;
+    });
+    if (isAuth) {
       return true;
     }
     this.authService.redirect = url;
