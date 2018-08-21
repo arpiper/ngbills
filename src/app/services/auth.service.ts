@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/toPromise';
 
 import { 
@@ -20,6 +21,7 @@ export class AuthService {
     })
   };
   public redirect;
+  public authenticated: boolean = false;
 
   constructor(
     private http: HttpClient
@@ -34,20 +36,33 @@ export class AuthService {
     };
     return this.http.post(`${this.url}/login`, cred, this.options)
       .toPromise()
-      .then(response => response)
+      .then(response => {
+        this.authenticated = response.status === 200;
+        return response; 
+      })
       .catch(response => this.handleError(response));
   }
 
   logout(): Promise<any> {
     return this.http.get(`${this.url}/logout`, this.options)
       .toPromise()
-      .then(response => response);
+      .then(response => {
+        this.authenticated = false;
+        return response
+      })
+      .catch(response => this.handleError(response));
   }
 
-  isAuthenticated() {
-    return this.http.get(`${this.url}/auth`, this.options)
+  /*
+   * check/refresh the cookie
+   */
+  isAuthenticated(): Observable<any> {
+    return this.http.get(`${this.url}/auth`, this.options);
       .toPromise()
-      .then(response => response)
+      .then(response => {
+        this.authenticated = response.status === 200;
+        return response['status'];
+      })
       .catch(response => this.handleError(response));
   }
   
@@ -68,17 +83,12 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     console.log('auth guard encountered');
     let url: string = state.url;
-
-    return this.checkAuthentication(url);
+    let isAuth= this.checkAuthentication(url);
+    return isAuth;
   }
 
   checkAuthentication(url: string): boolean {
-    let isAuth = false;
-    this.authService.isAuthenticated().then(response => {
-      console.log('chekc auth', response);
-      isAuth = true;
-    });
-    if (isAuth) {
+    if (this.authService.authenticated) {
       return true;
     }
     this.authService.redirect = url;
