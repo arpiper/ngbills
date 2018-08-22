@@ -57,7 +57,7 @@ export class AuthService {
    * check/refresh the cookie
    */
   isAuthenticated(): Observable<any> {
-    return this.http.get(`${this.url}/auth`, this.options);
+    return this.http.get(`${this.url}/auth`, this.options)
       .toPromise()
       .then(response => {
         this.authenticated = response.status === 200;
