@@ -15,45 +15,41 @@ import { DatePicker } from '../components/date-picker.component';
   selector: 'bill-form',
   template:`
     <div class="form-container" [ngStyle]="formPosition" #container>
-      <h3>Add New Bill</h3>
+      <h3 class="modal__header">Add New Bill</h3>
       <form [formGroup]="billForm" class="form" (ngSubmit)="onSubmit()">
         <div class="form-group due-date form__group">
-          <label class="form__label">Due Date:
-            <date-picker 
-              [extraClass]="'test'" 
-              [name]="'due_date'"
-              (datePicked)="datePicked($event)">
-            </date-picker>
-          </label>
+          <label class="form__label" for="billdate">Due Date:</label>
+          <date-picker 
+            id="billdate"
+            [extraClass]="'test'" 
+            [name]="'due_date'"
+            (datePicked)="datePicked($event)">
+          </date-picker>
         </div>
         <div class="form-group amount form__group">
-          <label class="form__label">Amount:
-            <input type="number" class="form-control" formControlName="amount" onClick="this.select()">
-          </label>
+          <label class="form__label" for="billamt">Amount:</label>
+          <input type="number" class="form-control" formControlName="amount" onClick="this.select()" id="billamt">
         </div>
         <div class="form-group paid-to form__group">
-          <label>Utility:
-            <select class="form-control" formControlName="paid_to">
-              <option *ngFor="let utility of utilities" [value]="utility.id">{{ utility.name | uppercase }}</option>
-            </select>
-          </label>
+          <label>Utility:</label>
+          <select class="form-control" formControlName="paid_to">
+            <option *ngFor="let utility of utilities" [value]="utility.id">{{ utility.name | uppercase }}</option>
+          </select>
         </div>
         <div class="form-group split-by form__group">
-          <label class="form__label">Roommates:
-            <div class="split-by-checkboxes" *ngFor="let person of persons; let i = index" formArrayName="split_by">
-              <label>
-                <input type="checkbox" [formControlName]="i"  [id]="person.name" [value]="person.id">
-                {{ person.name | uppercase }}
-              </label>
-            </div>
-          </label>
+          <label class="form__label">Roommates:</label>
+          <div class="split-by-checkboxes" *ngFor="let person of persons; let i = index" formArrayName="split_by">
+            <label>
+              <input type="checkbox" [formControlName]="i"  [id]="person.name" [value]="person.id">
+              {{ person.name | uppercase }}
+            </label>
+          </div>
         </div>
         <div class="form-group notes form__group">
-          <label class="form__label">notes:
-            <textarea class="form-control" formControlName="notes" rows="5"></textarea>
-          </label>
+          <label class="form__label" for="billnotes">notes:</label>
+          <textarea class="form-control" formControlName="notes" rows="5" id="billnotes"></textarea>
         </div>
-        <div class="form__buttons">
+        <div class="form__group form__inputs_button">
           <button class="button" (click)="cancel()">cancel</button>
           <button class="button">submit</button>
         </div>
@@ -62,18 +58,8 @@ import { DatePicker } from '../components/date-picker.component';
   `,
   styles: [`
     .form-container h3 {
-      margin-top: 0;
+      margin: 0;
       text-decoration: underline;
-    }
-    .form-container form {
-    }
-    .form-group {
-      padding: 5px;
-    }
-    .form-group,
-    .form-control,
-    label {
-      width: 100%;
     }
     .split-by-checkboxes label {
       display: inline-block;

@@ -87,6 +87,31 @@ body {
 }
 
 /*
+ * form blocks and elements
+ */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form__inputs {
+}
+
+.form__inputs_button {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/*
 nav .secondary {
   background-color: #3C463C;
 }
@@ -105,6 +130,7 @@ nav .secondary li:hover {
   grid-area: main;
   padding: 0 10px;
   display: flex;
+  justify-content: center;
 }
 
 .content__header {
@@ -198,6 +224,10 @@ input.alert + input:focus {
 .modal {
 }
 
+.modal__header {
+  margin: none;
+}
+
 .modal__content {
 }
 
@@ -206,7 +236,7 @@ input.alert + input:focus {
   height: auto;
   position: absolute;
   background-color: var(--color-gray-light);
-  padding: 25px;
+  padding: 15px;
   z-index: 100;
   top: 100px;
   left: 50%;
