@@ -160,6 +160,7 @@ export class BillDetailComponent implements OnInit {
 
   getBill(): void {
     let id = this.route.snapshot.paramMap.get('id');
+    console.log('bill deatil', id);
     this.billService.getBill(id).then(
       res => {
         if (res.status_code === 404) {
@@ -170,6 +171,7 @@ export class BillDetailComponent implements OnInit {
   }
 
   togglePersonPaid(person: Person): void {
+    // Add the person to the paid partial list
     if (!this.bill.paid_partial.includes(person)) {
       this.bill.paid_partial.push(person);
       this.bill.paid_partial_ids.push(person.id);
@@ -179,9 +181,12 @@ export class BillDetailComponent implements OnInit {
       i = this.bill.paid_partial_ids.indexOf(person.id);
       this.bill.paid_partial_ids.splice(i, 1);
     }
+
+    // Check whether everyone has paid their share.
     if (this.bill.paid_partial.length === this.bill.split_by.length) {
       this.bill.paid_full = true;
-      this.utilityService.updatePayments(this.bill.amount, this.bill.paid_to.id);
+      console.log(this.bill);
+      //this.utilityService.updatePayments(this.bill.amount, this.bill.paid_to.id);
     }
     console.log(this.bill);
     this.billService.updateBill(this.bill);

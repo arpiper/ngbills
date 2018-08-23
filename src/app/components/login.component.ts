@@ -38,6 +38,9 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.authService.authenticated) {
+      this.router.navigate([this.authService.redirect]);
+    }
     this.loginForm = this.fb.group({
       username: [''],
       password: [''],
@@ -50,6 +53,7 @@ export class LoginComponent implements OnInit {
         if (response.status === 200) {
           console.log('login cmp', response);
           sessionStorage.setItem('user', JSON.stringify(response.data));
+          this.loginSuccessful.emit(true);
           this.router.navigate([this.authService.redirect]);
         }
       });

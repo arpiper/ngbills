@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { AuthService } from './services/auth.service';
 import { PersonService } from './services/person.service';
 import { UtilityService } from './services/utility.service';
 import { ModalService } from './services/modal.service';
@@ -14,6 +15,7 @@ import { BillFormComponent } from './components/bill-form.component';
       <div class="header">
         <h2 class="header__title">Roommate Bill Tracker</h2>
         <!--login-cmp></login-cmp-->
+        <bill-btn *ngIf="isAuth" button_text="Logout" (click)="logoutUser()" ></bill-btn>
       </div>
       <nav class="nav">
         <ul class="menu">
@@ -39,9 +41,10 @@ import { BillFormComponent } from './components/bill-form.component';
     <div class="hidden modal__overlay" id="modal-overlay" (click)="closeForm()"></div>
   `,
 })
-export class AppComponent {
-  show_form = false;
-  title = 'app';
+export class AppComponent implements OnInit {
+  isAuth: boolean = false;
+  show_form: boolean = false;
+  title: string = 'app';
   components = [
     "home",
     "bills",
@@ -50,10 +53,24 @@ export class AppComponent {
   ];
 
   constructor(
+    private authService: AuthService,
     private modalService: ModalService,
     private personService: PersonService,
     private utilityService: UtilityService
-  ) {}
+  ) {
+    authService.loginSuccessful.subscribe(
+      response => {
+        console.log(response);
+      }
+    );
+  }
+
+  ngOnInit(): void { 
+    this.authService.isAuthenticated()
+      .then(response => {
+        this.isAuth = response;
+      });
+  }
 
   async showForm() {
     let persons = await this.personService.getPersons();
@@ -71,5 +88,9 @@ export class AppComponent {
 
   closeForm(): void {
     this.modalService.destroy();
+  }
+
+  logoutUser(): void {
+    this.authService.logout();
   }
 }
